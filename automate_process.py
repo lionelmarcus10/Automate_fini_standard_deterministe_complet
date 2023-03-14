@@ -1,4 +1,4 @@
-from automate import display_data, extract_data_from_file, automate_info, is_determinist, is_standard
+from automate import display_data, extract_data_from_file, automate_info, standardisation, determinisation_completion
 
 # menu principal proposant les options de l'application
 def menu():
@@ -7,6 +7,9 @@ def menu():
     print("3- Transformer l'automate en un automate standard (AS)")
     print("4- Transformer l'automate en un automate deterministe complet (ADC)")
     print("5- Quitter")
+    print("6- ( Bonus ) Calcul de l'automate minimal (AM)")
+    print("7- ( Bonus ) Test de reconnaissance des mots")
+    print("8- ( Bonus ) Creation d'un automate reconnaissant le langage complementaire")
     choix = input("choisir une option :   ")
     return choix
 
@@ -28,17 +31,13 @@ def run_program():
                 choix_menu = menu()
 
             if choix_menu == "1":
-                display_data(automate)
+                display_data(automate, int(auto_number))
             elif choix_menu == "2":
                 automate_info(automate)
             elif choix_menu == "3":
-                if(is_standard(automate) == True):
-                    print("\n\nl'automate est deja standard, il ne peut plus estre standardisé\n\n")
-                else:
-                    pass
+                standardisation(automate)
             elif choix_menu == "4":
-                # deterministe complet
-                pass
+                determinisation_completion(automate)
             choix_menu = menu()
         #importer les autres fonctions
         restart = True if input("voulez vous continuer avec un autre automate ? (y/n) : ") == "y" else False
