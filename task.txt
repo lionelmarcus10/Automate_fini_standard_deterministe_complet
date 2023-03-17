@@ -1,5 +1,4 @@
-2 - refaire l'affichage de tableau et graph en matplotlib avec netwrokx
-
+2 - refaire l'affichage de tableau avec prettytable
 3 - Faire le numero 4 pour epsilon et sans epsilon
 
 4 - faire le bonus
