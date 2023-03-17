@@ -1,0 +1,9 @@
+2 - refaire l'affichage de tableau et graph en matplotlib avec netwrokx
+
+3 - Faire le numero 4 pour epsilon et sans epsilon
+
+4 - faire le bonus
+
+5 - tableau pretty table
+
+6 - resoudre affichage de multiples E S dans le tableau 

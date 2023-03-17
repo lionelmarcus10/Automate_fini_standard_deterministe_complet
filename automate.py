@@ -34,7 +34,14 @@ def display_data(automate,*number):
 
     #extriaire les symboles de l'automate
     automate_symboles = list(set([symbol[1] for symbol in automate_transitions]))
-    
+    if("Î" in automate_symboles):
+        automate_symboles = "+".join(automate_symboles).replace("Î","µ").split("+")
+    print(automate_symboles)
+    for i in range(len(automate_transitions)):
+         if("Î" in automate_transitions[i]):  
+            automate_transitions[i] = automate_transitions[i].replace("Îµ","µ")
+    print(automate_transitions)
+
     #extraire les états de l'automate
     automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
     
@@ -51,20 +58,29 @@ def display_data(automate,*number):
         # ajouter les noeud (états) de l'automate dans le graph
         for state in automate_states:
 
-            graph.add_node(pyd.Node(state, shape='circle', color='black', style='filled', fillcolor='white'))
+            #graph.add_node(pyd.Node(state, shape='circle', color='black', style='filled', fillcolor='white'))
+            if state in automate_input_states and state in automate_output_states:
+                graph.add_node(pyd.Node(state, shape='doublecircle', color='black', style='filled', fillcolor='burlywood'))
+            elif state in automate_output_states:
+                graph.add_node(pyd.Node(state, shape='doublecircle', color='black', style='filled', fillcolor='white'))
+            elif state in automate_input_states:
+                graph.add_node(pyd.Node(state, shape='circle', color='black', style='filled', fillcolor='burlywood'))
 
         # relier les noeuds (états) de l'automate dans le graph
         for transition in automate_transitions:
-            graph.add_edge(pyd.Edge(transition[0], transition[2], label=transition[1],))
+            if transition[1] == "µ":
+                graph.add_edge(pyd.Edge(transition[0], transition[2], label="eps",))
+            else:
+                graph.add_edge(pyd.Edge(transition[0], transition[2], label=transition[1],))
         
-        for state in automate_input_states:
+        """for state in automate_input_states:
             graph.get_node(state)[0].set_fillcolor("burlywood")
             print(graph.get_node(state), graph.get_node(state)[0])
         
         for state in automate_output_states:
-            graph.get_node(state)[0].set_shape("doublecircle")
+            graph.get_node(state)[0].set_shape("doublecircle")"""
 
-    # afficher l'automate en format graph ( .dot ) à travers une image ( extension vscode : graphviz preview)
+    # afficher l'automate en format graph ( .dot ) à travers une image ( extension vscode : graphviz preview )
     if(number):
         graph.write_raw(f'dot_file/output-{number[0]}.dot')
     else:
@@ -86,17 +102,17 @@ def display_data(automate,*number):
                 df.loc[state,symbol] = ",".join(trans_state[1:])
         
         
-        col = []
-        for element in automate_states:
-            if element in automate_input_states and element in automate_output_states:
-                col.append("E/s")
-            elif element in automate_output_states:
-                col.append("S")
-            elif element in automate_input_states:
-                col.append("E")
-            elif element not in automate_input_states and element not in automate_output_states:
-                col.append("")
-        df.insert(0, "",col, True)
+    col = []
+    for element in automate_states:
+        if element in automate_input_states and element in automate_output_states:
+            col.append("E/S")
+        elif element in automate_output_states:
+            col.append("S")
+        elif element in automate_input_states:
+            col.append("E")
+        elif element not in automate_input_states and element not in automate_output_states:
+            col.append("")
+    df.insert(0, "",col, True)
      
     print("\n\n",df,"\n\n")
 
@@ -279,27 +295,38 @@ def standardisation(automate,*number):
                 col.append("")
         df.insert(0, "",col, True)
         
+
+
         row_standart = list(set(row_standart))
+        final_row = ['i',"E/S"] if(any( i in automate_output_states for i in row_standart)) else ["i","E"]
+        #determiner row_standart element in each symbol
         s_row = []
+        print(row_standart)
         for symbol in automate_symboles:
             temp = []
             temp2 = df.query('index in @row_standart')[symbol]
             for i in range(len(temp2)):
                 temp.append(temp2[i])
-            temp.remove("---")
+            temp = list(set(temp))
+            temp = [i for i in temp if i != "---"]
+            temp = ",".join(temp)
             s_row.append(temp)
-        # supprimer les doublons 
-        # joindre chaque partie de la liste 
-        # ajouter la nouvelle ligne dans le tableau     
-        final2 = [ [[].append(i) for i in automate_input_states if i in j] for j in s_row]       
-        print(s_row, final2)
+        final_row.extend(s_row)
+        # ajouter la nouvelle ligne dans le tableau
+        df.loc[f"{final_row[0]}"] = final_row[1:]
+        #final2 = [ [[].append(i) for i in automate_input_states if i in j] for j in s_row]       
+        #print(s_row, final2)
 
-        # add new column of standardisation
+        # add new row of standardisation
         
         print("\n\n",df,"\n\n")
         
 #verifier si l'automate contient un ε
 def have_epsilon(automate):
     automate_transitions = automate[5:]
-    return True if("ε" in any(transition for transition in automate_transitions)) else False    
+    return True if("ε" in any(transition)for transition in automate_transitions) else False
         
+        
+if __name__ == '__main__':
+    x = extract_data_from_file("B7-31.txt")
+    print(have_epsilon(x))
