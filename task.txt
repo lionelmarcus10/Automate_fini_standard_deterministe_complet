@@ -1,14 +1,8 @@
-3 - Faire le numero 4 pour epsilon et sans epsilon
+1 - Faire le numero 4 pour epsilon et sans epsilon
 
-4 - faire le bonus
+2 - faire le bonus
 
 3 - revoir toutes les fonctions et les reecrire pour les doubles characters
 
 ------------------------------------------
-refaire le traitement des questions 1 - 3 avec epsilon et double character
-=> eps_cloture, have_epsilon, standardisation, is_complete, is_determinist
 - no epsilon in determinisation_completion symbols
-
-
-- revoir la fonction is_determinist pour les epsilon ( compter epsilon en tant que membre des symboles ne devant pas avoir de doublon avec un etat ? )
-- revoir la fonction is_complete pour les epsilon ( compter epsilon en tant que symbol devant participer aux transitions de chaque etat ? )

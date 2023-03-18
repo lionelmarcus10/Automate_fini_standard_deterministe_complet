@@ -333,11 +333,15 @@ def standardisation(automate,*number):
 #verifier si l'automate contient un ε
 def have_epsilon(automate):
     automate_transitions = automate[5:]
-    return True if("ε" in any(transition)for transition in automate_transitions) else False
+    for transition in automate_transitions:
+        if("µ" in transition):
+            return True
+    return False
+    #return True if("µ" in any(transition)for transition in automate_transitions) else False
 
 # fontion pour trouver les epsilon cloture pour chaque etat
 def eps_cloture(automate_transitions, automate_states):
-        if(have_epsilon(x) == True):
+        #if(have_epsilon(x) == True):
 
             # liste des transitions qui portent le symbole ε
             eps_cloture = []
@@ -347,12 +351,11 @@ def eps_cloture(automate_transitions, automate_states):
             for state in automate_states:
                 # trouver toutes les transitions qui partent de l'etat et portent le symbole ε
                 # prendre la deuxieme valeur et la conserver
-                state_transitions2 = [state,list(set([state] + [transition.split("µ")[-1] for transition in state_transitions if transition.split("µ")[0] == state]))]
+                state_transitions2 = [state,list(set([state] + [transition[-1] for transition in state_transitions if transition[0] == state]))]
                 eps_cloture.append(state_transitions2)
 
             # pour chaque state , ajouter toutes les clotures epsilon possible ( de ses autres clotures epsilon)
             eps_cloture2 = eps_cloture
-
             k = True
             while k:
 
@@ -367,7 +370,6 @@ def eps_cloture(automate_transitions, automate_states):
                         eps_cloture2[automate_states.index(state)][-1] = x
                 if temp_closure == eps_cloture2:
                     k = False
-            
             return eps_cloture2
                     
                 
@@ -380,8 +382,11 @@ def eps_cloture(automate_transitions, automate_states):
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-32.txt")
-    display_data(x,32)
-    print(eps_cloture(x))
+    x = extract_data_from_file("B7-31.txt")
+    display_data(x,31)
+    automate_transitions = x[5:]
+    automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
+    eps_cloture(automate_transitions, automate_states)
+
 
     
