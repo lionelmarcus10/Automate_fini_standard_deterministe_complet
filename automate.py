@@ -11,12 +11,27 @@ afficher les données de l'automate en format tableau et format de graph
 
 """
 
+
+""" 
+filtrage de l'automate dans extract data from file
+if("Î" in automate_symboles):
+            automate_symboles = "+".join(automate_symboles).replace("Î","µ").split("+")
+
+        for i in range(len(automate_transitions)):
+            if("Î" in automate_transitions[i]):  
+                automate_transitions[i] = automate_transitions[i].replace("Îµ","µ")
+                
+"""
+
 # extraire les données d'un l'automate contenu dans un fichier texte
 def extract_data_from_file(file_name):
     with open(f"Automates_B7/{file_name}", "r") as automate_file:
         automate= automate_file.readlines()
         automate = [line.strip() for line in automate]
         automate_file.close()
+        for i in range(5,len(automate)):
+            if "Îµ" in automate[i]:
+                automate[i] = automate[i].replace("Îµ","µ")
     return automate
 
 
@@ -31,16 +46,16 @@ def display_data(automate,*number):
     automate_nbr_transitions = automate[4]
     automate_transitions = automate[5:]
 
+    #test
+    test = ["a","b","c","d","µ"]
+    for i in range(len(automate_transitions)):
+        automate_transitions[i] = [ automate_transitions[i].split(j) for j in test if j in automate_transitions[i]]
+    #automate_transitions =  [ [for tansition in automate_transitions if( any(i) in transition for i in test ) tansition.split(i) ]  ]
+
+
     #extriaire les symboles de l'automate
     automate_symboles = list(set([symbol[1] for symbol in automate_transitions]))
-    if("Î" in automate_symboles):
-        automate_symboles = "+".join(automate_symboles).replace("Î","µ").split("+")
-    print(automate_symboles)
-    for i in range(len(automate_transitions)):
-         if("Î" in automate_transitions[i]):  
-            automate_transitions[i] = automate_transitions[i].replace("Îµ","µ")
-    print(automate_transitions)
-
+    
     #extraire les états de l'automate
     automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
     
@@ -72,12 +87,6 @@ def display_data(automate,*number):
             else:
                 graph.add_edge(pyd.Edge(transition[0], transition[2], label=transition[1],))
         
-        """for state in automate_input_states:
-            graph.get_node(state)[0].set_fillcolor("burlywood")
-            print(graph.get_node(state), graph.get_node(state)[0])
-        
-        for state in automate_output_states:
-            graph.get_node(state)[0].set_shape("doublecircle")"""
 
     # afficher l'automate en format graph ( .dot ) à travers une image ( extension vscode : graphviz preview )
     if(number):
@@ -214,11 +223,8 @@ def standardisation(automate,*number):
         print("\n\nl'automate est déja standard\n\n")
     else:
         # categoriser les données de l'automate
-        automate_nbr_symboles = automate[0]
-        automate_nbr_states = automate[1]
         automate_nbr_and_initial_states = automate[2]
         automate_nbr_and_final_states = automate[3]
-        automate_nbr_transitions = automate[4]
         automate_transitions = automate[5:]
 
         #extriaire les symboles de l'automate
@@ -324,8 +330,52 @@ def standardisation(automate,*number):
 def have_epsilon(automate):
     automate_transitions = automate[5:]
     return True if("ε" in any(transition)for transition in automate_transitions) else False
-        
-        
+
+# fontion pour trouver les epsilon cloture pour chaque etat
+def eps_cloture(automate_transitions, automate_states):
+        if(have_epsilon(x) == True):
+
+            # liste des transitions qui portent le symbole ε
+            eps_cloture = []
+            state_transitions = [transition for transition in automate_transitions if'µ' in transition]
+
+            # trouver les premières epsilon cloture de chaque etat
+            for state in automate_states:
+                # trouver toutes les transitions qui partent de l'etat et portent le symbole ε
+                # prendre la deuxieme valeur et la conserver
+                state_transitions2 = [state,list(set([state] + [transition.split("µ")[-1] for transition in state_transitions if transition.split("µ")[0] == state]))]
+                eps_cloture.append(state_transitions2)
+
+            # pour chaque state , ajouter toutes les clotures epsilon possible ( de ses autres clotures epsilon)
+            eps_cloture2 = eps_cloture
+
+            k = True
+            while k:
+
+                temp_closure = eps_cloture2
+
+                for state in automate_states:
+                    
+                    y = eps_cloture[automate_states.index(state)][-1]
+                    for element in y:
+                        x = eps_cloture2[automate_states.index(state)][-1] + eps_cloture2[automate_states.index(element)][-1]
+                        x = list(set(x))
+                        eps_cloture2[automate_states.index(state)][-1] = x
+                if temp_closure == eps_cloture2:
+                    k = False
+            
+            return eps_cloture2
+                    
+                
+
+    # fonction pour determiniser en haut
+                
+
+#determiner les états ( simple ou double caractère) de l'automate
+
+
 if __name__ == '__main__':
+
     x = extract_data_from_file("B7-31.txt")
-    print(have_epsilon(x))
+
+    
