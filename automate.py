@@ -1,6 +1,6 @@
 import pandas as pd
 import pydot as pyd
-
+import re
 """ 
 Extraire les données d'un automate contenu dans un fichier texte
 
@@ -12,26 +12,29 @@ afficher les données de l'automate en format tableau et format de graph
 """
 
 
-""" 
-filtrage de l'automate dans extract data from file
-if("Î" in automate_symboles):
-            automate_symboles = "+".join(automate_symboles).replace("Î","µ").split("+")
 
-        for i in range(len(automate_transitions)):
-            if("Î" in automate_transitions[i]):  
-                automate_transitions[i] = automate_transitions[i].replace("Îµ","µ")
-                
-"""
 
 # extraire les données d'un l'automate contenu dans un fichier texte
 def extract_data_from_file(file_name):
+    # extraire les données de l'automate contenu dans un fichier texte et le parser
     with open(f"Automates_B7/{file_name}", "r") as automate_file:
+        # extraction des données de l'automate
         automate= automate_file.readlines()
         automate = [line.strip() for line in automate]
         automate_file.close()
+        # filtrer les données de l'automate ( symbole epsilon ) car il n'est pas reconnu durant certaines opérations
         for i in range(5,len(automate)):
             if "Îµ" in automate[i]:
                 automate[i] = automate[i].replace("Îµ","µ")
+        # diviser en une liste de 3 elements les transitions de l'automate
+        symbols = ["a","b","c","d","µ"]
+        for i in range(5,len(automate)):
+            transition = automate[i]
+            for symbol in symbols:
+                if symbol in transition:
+                    automate[i] = re.split(f'({symbol})',transition)
+                    break 
+
     return automate
 
 
@@ -46,13 +49,6 @@ def display_data(automate,*number):
     automate_nbr_transitions = automate[4]
     automate_transitions = automate[5:]
 
-    #test
-    test = ["a","b","c","d","µ"]
-    #for i in range(len(automate_transitions)):
-    #    automate_transitions[i] = [ automate_transitions[i].split(j) for j in test if j in automate_transitions[i]]
-    #automate_transitions =  [ [for tansition in automate_transitions if( any(i) in transition for i in test ) tansition.split(i) ]  ]
-
-
     #extriaire les symboles de l'automate
     automate_symboles = list(set([symbol[1] for symbol in automate_transitions]))
     
@@ -65,6 +61,9 @@ def display_data(automate,*number):
     
     #instancifier un graph
     graph = pyd.Dot('my_graph', graph_type='digraph', bgcolor='white')
+
+    # ajouter les noeud (états) de l'automate dans le graph
+     # cas d'un automate avec un seul état lisant le mot vide
     if(automate_nbr_transitions == "0" and automate_nbr_states == "1"):
         graph.add_node(pyd.Node(automate_input_states[0], shape='doublecircle', color='black', style='filled', fillcolor='burlywood'))
     else:
@@ -72,11 +71,14 @@ def display_data(automate,*number):
         # ajouter les noeud (états) de l'automate dans le graph
         for state in automate_states:
 
-            #graph.add_node(pyd.Node(state, shape='circle', color='black', style='filled', fillcolor='white'))
+            # ajout des noeuds (états) en fonction de leur type ( entrée , sortie , entrée et sortie )
+             # entrée et sortie
             if state in automate_input_states and state in automate_output_states:
                 graph.add_node(pyd.Node(state, shape='doublecircle', color='black', style='filled', fillcolor='burlywood'))
+            # sortie
             elif state in automate_output_states:
                 graph.add_node(pyd.Node(state, shape='doublecircle', color='black', style='filled', fillcolor='white'))
+            # entrée
             elif state in automate_input_states:
                 graph.add_node(pyd.Node(state, shape='circle', color='black', style='filled', fillcolor='burlywood'))
 
@@ -133,13 +135,14 @@ def is_determinist(automate):
     #extraire les differents etats d'entrée de l'automate
     automate_input_states = list(set([ element for element in automate_nbr_and_initial_states.split(" ")[1:]]))
     
+    # si l'autome a plus d'un etat d'entrée
     if(len(automate_input_states)) > 1:
         return False
     else:
         # etat ayant le meme libellé de transition vers differents etats
         libele_in_transition = []
         for transition in automate_transitions:
-           libele_in_transition.append(transition[:2])
+           libele_in_transition.append("".join(transition[:2]))
         if(len(libele_in_transition) != len(set(libele_in_transition))):
             return False
         return True
@@ -154,6 +157,7 @@ def is_standard(automate):
     #extraire les differents etats d'entrée de l'automate
     automate_input_states = list(set([ element for element in automate_nbr_and_initial_states.split(" ")[1:]]))
     
+    # si l'autome a plus d'un etat d'entrée
     if(len(automate_input_states)) > 1:
         return False
     else:
@@ -180,7 +184,7 @@ def is_complete(automate):
             final_complete_states.append(state+symbol)
 
     for transition in automate_transitions:
-        current_complete_states.append(transition[:2])
+        current_complete_states.append("".join(transition[:2]))
 
     current_complete_states = list(set(current_complete_states))
     for element in final_complete_states:
@@ -376,6 +380,8 @@ def eps_cloture(automate_transitions, automate_states):
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-31.txt")
+    x = extract_data_from_file("B7-32.txt")
+    display_data(x,32)
+    print(eps_cloture(x))
 
     

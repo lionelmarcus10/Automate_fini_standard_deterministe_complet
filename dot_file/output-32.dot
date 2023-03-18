@@ -1,0 +1,35 @@
+digraph my_graph {
+bgcolor=white;
+21 [color=black, fillcolor=white, shape=doublecircle, style=filled];
+0 [color=black, fillcolor=burlywood, shape=circle, style=filled];
+0 -> 1  [label=eps];
+0 -> 10  [label=eps];
+1 -> 2  [label=eps];
+1 -> 6  [label=eps];
+2 -> 3  [label=eps];
+2 -> 5  [label=eps];
+3 -> 4  [label=b];
+4 -> 3  [label=eps];
+4 -> 5  [label=eps];
+5 -> 8  [label=eps];
+6 -> 7  [label=a];
+7 -> 8  [label=eps];
+8 -> 9  [label=c];
+9 -> 21  [label=eps];
+10 -> 11  [label=eps];
+10 -> 15  [label=eps];
+11 -> 12  [label=eps];
+11 -> 14  [label=eps];
+12 -> 13  [label=a];
+13 -> 12  [label=eps];
+13 -> 14  [label=eps];
+14 -> 17  [label=eps];
+15 -> 16  [label=b];
+16 -> 17  [label=eps];
+17 -> 18  [label=eps];
+17 -> 20  [label=eps];
+18 -> 19  [label=c];
+19 -> 18  [label=eps];
+19 -> 20  [label=eps];
+20 -> 21  [label=eps];
+}

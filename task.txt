@@ -6,6 +6,9 @@
 
 ------------------------------------------
 refaire le traitement des questions 1 - 3 avec epsilon et double character
-=>
-- FAIRE UNE LISTE DES SYMBOLES ET REFAIRE LE PROGRAMME ( a,b,c,d, epsilon)
-- no epsilon in determinisation_completion
+=> eps_cloture, have_epsilon, standardisation, is_complete, is_determinist
+- no epsilon in determinisation_completion symbols
+
+
+- revoir la fonction is_determinist pour les epsilon ( compter epsilon en tant que membre des symboles ne devant pas avoir de doublon avec un etat ? )
+- revoir la fonction is_complete pour les epsilon ( compter epsilon en tant que symbol devant participer aux transitions de chaque etat ? )
