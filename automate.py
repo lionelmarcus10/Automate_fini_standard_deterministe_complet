@@ -48,8 +48,8 @@ def display_data(automate,*number):
 
     #test
     test = ["a","b","c","d","µ"]
-    for i in range(len(automate_transitions)):
-        automate_transitions[i] = [ automate_transitions[i].split(j) for j in test if j in automate_transitions[i]]
+    #for i in range(len(automate_transitions)):
+    #    automate_transitions[i] = [ automate_transitions[i].split(j) for j in test if j in automate_transitions[i]]
     #automate_transitions =  [ [for tansition in automate_transitions if( any(i) in transition for i in test ) tansition.split(i) ]  ]
 
 
