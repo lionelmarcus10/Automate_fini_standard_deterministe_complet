@@ -6,3 +6,14 @@
 
 ------------------------------------------
 - no epsilon in determinisation_completion symbols
+
+
+-----------------------------------------------------------
+- determinisation pour non epsilon
+- insertion colonne es pour determinisation epsilon
+
+completion epsilon
+completion non epsilon
+
+fonction determinisation_completion
+-----------------------------------------------------------

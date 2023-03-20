@@ -1,6 +1,9 @@
 import pandas as pd
 import pydot as pyd
 import re
+import plotly.figure_factory as ff
+import pandas as pd
+
 """ 
 Extraire les données d'un automate contenu dans un fichier texte
 
@@ -37,7 +40,21 @@ def extract_data_from_file(file_name):
 
     return automate
 
+#visual_displayer
+#prendre en parametre la colonne des etats de l'automate
+def visual_displayer(df):
 
+    fig =  ff.create_table(df)
+    fig.update_layout(
+        autosize=False,
+        width=700,
+        height=500,
+    
+    )
+    #fig.show()
+    print("\n\n")
+    print(df.to_markdown())
+    print("\n\n")
 # colonne des entree et sortie de l'automate
 # afficher les données de l'automate en format tableau et format de graph
 def display_data(automate,*number):
@@ -124,7 +141,9 @@ def display_data(automate,*number):
             col.append("")
     df.insert(0, "",col, True)
      
-    print("\n\n",df,"\n\n")
+    visual_displayer(df)
+
+  
 
 # determiner si l'automate est deterministe
 def is_determinist(automate):
@@ -137,6 +156,7 @@ def is_determinist(automate):
     
     # si l'autome a plus d'un etat d'entrée
     if(len(automate_input_states)) > 1:
+        print( "l'automate n'est pas deterministe car il a plus d'un etat d'entrée")
         return False
     else:
         # etat ayant le meme libellé de transition vers differents etats
@@ -144,6 +164,7 @@ def is_determinist(automate):
         for transition in automate_transitions:
            libele_in_transition.append("".join(transition[:2]))
         if(len(libele_in_transition) != len(set(libele_in_transition))):
+            print( "l'automate n'est pas deterministe car il a des etats ayant le meme libellé de transition vers differents etats")
             return False
         return True
 
@@ -159,11 +180,13 @@ def is_standard(automate):
     
     # si l'autome a plus d'un etat d'entrée
     if(len(automate_input_states)) > 1:
+        print( "l'automate n'est pas standard car il a plus d'un etat d'entrée")
         return False
     else:
         # fleche retour de l'etat initial vers l'etat initial
         for transition in automate_transitions:
             if transition[0] == transition[2] == automate_input_states[0]:
+                print( "l'automate n'est pas standard car il a une fleche retour ( transition ) de l'etat initial vers l'etat initial")
                 return False
         return True
 
@@ -217,6 +240,12 @@ def determinisation_completion(automate):
     if(DC):
         print("\n\nl'automate est déja deterministe complet\n\n")
     else:
+        # verifier si c'est un automate deterministe
+        determinist = is_determinist(automate)
+        # verifier si c'est un automate complet
+        complete = is_complete(automate)
+        # determiniser l'automate
+        # completer l'automate
         pass
 
 # standardiser l'automate    
@@ -310,7 +339,6 @@ def standardisation(automate,*number):
         final_row = ['i',"E/S"] if(any( i in automate_output_states for i in row_standart)) else ["i","E"]
         #determiner row_standart element in each symbol
         s_row = []
-        print(row_standart)
         for symbol in automate_symboles:
             temp = []
             temp2 = df.query('index in @row_standart')[symbol]
@@ -323,12 +351,11 @@ def standardisation(automate,*number):
         final_row.extend(s_row)
         # ajouter la nouvelle ligne dans le tableau
         df.loc[f"{final_row[0]}"] = final_row[1:]
-        #final2 = [ [[].append(i) for i in automate_input_states if i in j] for j in s_row]       
-        #print(s_row, final2)
+        
 
         # add new row of standardisation
         
-        print("\n\n",df,"\n\n")
+        visual_displayer(df)
         
 #verifier si l'automate contient un ε
 def have_epsilon(automate):
@@ -340,7 +367,7 @@ def have_epsilon(automate):
     #return True if("µ" in any(transition)for transition in automate_transitions) else False
 
 # fontion pour trouver les epsilon cloture pour chaque etat
-def eps_cloture(automate_transitions, automate_states):
+def find_eps_cloture(automate_transitions, automate_states):
         #if(have_epsilon(x) == True):
 
             # liste des transitions qui portent le symbole ε
@@ -372,21 +399,151 @@ def eps_cloture(automate_transitions, automate_states):
                     k = False
             return eps_cloture2
                     
+def determinisation(automate):
+
+    # categoriser les données de l'automate
+    automate_nbr_and_initial_states = automate[2]
+    automate_nbr_and_final_states = automate[3]
+    automate_transitions = automate[5:]
+
+    automate_symboles = list(set([ transition[1] for transition in automate_transitions]))
+    automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
+
+    #extraire les differents etats d'entrée et de sortie de l'automate
+    automate_input_states = list(set([ element for element in automate_nbr_and_initial_states.split(" ")[1:]]))
+    automate_output_states = list(set([ element for element in automate_nbr_and_final_states.split(" ")[1:]]))
+     
+    terminal = "E/S" if any( i in automate_output_states for i in automate_input_states) else "E"
+
+    # modelisation pandas 
+    df = pd.DataFrame(data="--",index=automate_states,columns=automate_symboles)
+
+    # verifier si l'automate contient un ε car la determinisation est differente dans ce cas
+    if(have_epsilon(automate)):
+        # supprimer le symbole ε de la liste des symboles car il n'est pa considéré durant la determinisation
+        automate_symboles = [symbol for symbol in automate_symboles if symbol != "µ"]
+        # trouver les epsilon cloture pour chaque etat
+        eps_cloture = find_eps_cloture(automate_transitions, automate_states)
+
+        # selectionner les transitions qui ne portent pas le symbole ε
+        wanted_transitions = [transition for transition in automate_transitions if transition[1] != "µ"]
+
+        # modelisation pandas 
+        df = pd.DataFrame(data="--",index=automate_input_states,columns=automate_symboles)
+
+
+
+        # faire une boucle pour remplir le tableau avec new results of states        
+        for symbol in automate_symboles:
+            for state in automate_input_states:
+                if type(state) != list:    
+                    temp_trans_state = []
+                    for additional_state in eps_cloture[automate_states.index(state)][-1]:
+                        for transition in wanted_transitions:
+                            if transition[0] == additional_state and transition[1] == symbol:
+                                temp_trans_state.append(transition[2])
+                    temp_trans_state = list(set(temp_trans_state))
+                    if(len(temp_trans_state) == 0 ):
+                        df.loc[state,symbol] = "---"
+                    else:
+                        df.loc[state,symbol] = "-".join(temp_trans_state[:])
+        # fonction qui fait la table de transition des nouveaux etats
+
+
+
+        # debut de la boucle
+        modif = True
+
+        while modif:
+            # prendre les nouveaux etats de chaque ligne
+            new_state = []
+            for index, row in df.iterrows():
+                for element in row:
+                        new_state.append(element)
+            new_state = list(set(new_state))
+            # les mettre dans une liste
+            new_state = [element for element in new_state if element != "---"]
+            # verifier si les nouveaux etats sont deja dans les etats présent dans la colonne du tableau
+            new_state2 = []
+            for i in range(len(new_state)):
+                
+                if new_state[i] not in df.index:
+                    new_state2 = new_state2 + [new_state[i]]
+            new_state = new_state2
+
+            # condition d'arret pour la boucle
+            if len(new_state) == 0:
+                modif = False
+            # refaire la ligne de transition pour chaque nouvel etat
+            for state in new_state: 
+                temp_main_state = []
+                for symbol in automate_symboles:
+                    # trouver chaque transition de l'etat pour chaque symbole
+                    x = state.split("-")
+                    temp_states1 = [] 
+                    for single_state in x:
+
+                        for additional_state in eps_cloture[automate_states.index(single_state)][-1]:
+                            for transition in wanted_transitions:
+                                if transition[0] == additional_state and transition[1] == symbol:
+                                    temp_states1.append(transition[2])
+                                
+
+                    temp_states1 = list(set(temp_states1))
+                    temp_main_state.append(temp_states1)
+
+                for i in range(len(temp_main_state)):
+                    if len(temp_main_state[i]) == 0:
+                        temp_main_state[i] = "---"
+                    else:
+                        temp_main_state[i] = "-".join(temp_main_state[i])
+                
+                # ajouter la ligne de transition dans le tableau pour l'etat 
+                df.loc[f"{state}"] = temp_main_state
+
+        # fin de la boucle    
+            
+        # remodeler pour la lecture de liste dans des listes TODO
+        """col = []
+        for element in automate_input_states:
+            if element in automate_input_states and element in automate_output_states:
+                col.append("E/S")
+            elif element in automate_output_states:
+                col.append("S")
+            elif element in automate_input_states:
+                col.append("E")  
+            elif element not in automate_input_states and element not in automate_output_states:
+                col.append("")
+        
+
+        df.insert(0, "",col, True)"""
+        
+        visual_displayer(df)
+
+    else:
+        pass
+    pass               
+
+ 
                 
 
-    # fonction pour determiniser en haut
-                
 
-#determiner les états ( simple ou double caractère) de l'automate
+# dire pourquoi l'automate n'est pas complet
+
+# determiniser l'automate -
+# completer l'automate 
+# lire un langage complémentaire
+# prettytable
+# minimiser l'automate
+# tester les mots
 
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-31.txt")
-    display_data(x,31)
-    automate_transitions = x[5:]
-    automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
-    eps_cloture(automate_transitions, automate_states)
+    x = extract_data_from_file("B7-35.txt")
+    display_data(x,35)
+    automate_info(x)
+    determinisation(x)
 
 
     

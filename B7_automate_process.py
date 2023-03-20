@@ -1,4 +1,4 @@
-from automate import display_data, extract_data_from_file, automate_info, standardisation, determinisation_completion
+from B7_automate import display_data, extract_data_from_file, automate_info, standardisation, determinisation_completion
 
 # menu principal proposant les options de l'application
 def menu():
