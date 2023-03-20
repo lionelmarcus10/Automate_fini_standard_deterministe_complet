@@ -9,7 +9,7 @@ Extraire les données d'un automate contenu dans un fichier texte
 
 determiner les caracteristiques d'un automate : deterministe , standart , complet
 
-afficher les données de l'automate en format tableau et format de graph
+afficher les données de l'automate en format tableau markdown et format de graph ( dot file et tableau dans le navigateur)
 
 
 """
@@ -20,7 +20,7 @@ afficher les données de l'automate en format tableau et format de graph
 # extraire les données d'un l'automate contenu dans un fichier texte
 def extract_data_from_file(file_name):
     # extraire les données de l'automate contenu dans un fichier texte et le parser
-    with open(f"Automates_B7/{file_name}", "r") as automate_file:
+    with open(f"B7_Automates/{file_name}", "r") as automate_file:
         # extraction des données de l'automate
         automate= automate_file.readlines()
         automate = [line.strip() for line in automate]
@@ -109,10 +109,33 @@ def display_data(automate,*number):
 
     # afficher l'automate en format graph ( .dot ) à travers une image ( extension vscode : graphviz preview )
     if(number):
-        graph.write_raw(f'dot_file/output-{number[0]}.dot')
+        graph.write_raw(f'B7_dot_file/B7_simple_automate/B7-output-{number[0]}.dot')
     else:
-        graph.write_raw('dot_file/output.dot')
+        graph.write_raw('B7_dot_file/B7_simple_automate/B7-output.dot')
+
     
+    df = create_automate_simple_table(automate_states,automate_symboles,automate_transitions)
+        
+        
+    col = []
+    for element in automate_states:
+        if element in automate_input_states and element in automate_output_states:
+            col.append("E/S")
+        elif element in automate_output_states:
+            col.append("S")
+        elif element in automate_input_states:
+            col.append("E")
+        elif element not in automate_input_states and element not in automate_output_states:
+            col.append("")
+    df.insert(0, "",col, True)
+
+    print("\naffichage de l'automate en format tableau : ") 
+    visual_displayer(df)
+
+    
+
+
+def create_automate_simple_table(automate_states,automate_symboles,automate_transitions):
     # afficher les données de l'automate en format tableau
     df = pd.DataFrame(data="--",index=automate_states,columns=automate_symboles)
     for symbol in automate_symboles:
@@ -127,23 +150,9 @@ def display_data(automate,*number):
                 df.loc[state,symbol] = "---"
             else:
                 df.loc[state,symbol] = ",".join(trans_state[1:])
-        
-        
-    col = []
-    for element in automate_states:
-        if element in automate_input_states and element in automate_output_states:
-            col.append("E/S")
-        elif element in automate_output_states:
-            col.append("S")
-        elif element in automate_input_states:
-            col.append("E")
-        elif element not in automate_input_states and element not in automate_output_states:
-            col.append("")
-    df.insert(0, "",col, True)
-     
-    visual_displayer(df)
+    return df
 
-  
+
 
 # determiner si l'automate est deterministe
 def is_determinist(automate):
@@ -212,6 +221,7 @@ def is_complete(automate):
     current_complete_states = list(set(current_complete_states))
     for element in final_complete_states:
         if element not in current_complete_states:
+            print( "l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats")
             return False
     return True
     
@@ -299,24 +309,13 @@ def standardisation(automate,*number):
 
         # afficher l'automate en format graph ( .dot ) à travers une image ( extension vscode : graphviz preview)
         if(number):
-            graph.write_raw(f'dot_file/standard-output-{int(number[0])}.dot')
+            graph.write_raw(f'B7_dot_file/B7_standardised/B7-standard-output-{int(number[0])}.dot')
         else:
-            graph.write_raw('dot_file/standard-output.dot')
+            graph.write_raw('B7_dot_file/B7_standardised/B7-standard-output.dot')
         
         # afficher les données de l'automate en format tableau
-        df = pd.DataFrame(data="--",index=automate_states,columns=automate_symboles)
-        for symbol in automate_symboles:
-            
-            for state in automate_states:
-                trans_state = [state]
-                for transition in automate_transitions:
-                    if transition[0] == state and transition[1] == symbol:
-                        trans_state.append(transition[2])
-                list(set(trans_state))
-                if(len(trans_state) == 1 ):
-                    df.loc[state,symbol] = "---"
-                else:
-                    df.loc[state,symbol] = ",".join(trans_state[1:])
+        
+        df = create_automate_simple_table(automate_states,automate_symboles,automate_transitions)
         
         col = []
         row_standart = []
@@ -353,9 +352,10 @@ def standardisation(automate,*number):
         df.loc[f"{final_row[0]}"] = final_row[1:]
         
 
-        # add new row of standardisation
-        
+        #affichage
+        print("\n\nAutomate standardisé : ")
         visual_displayer(df)
+        
         
 #verifier si l'automate contient un ε
 def have_epsilon(automate):
@@ -398,8 +398,9 @@ def find_eps_cloture(automate_transitions, automate_states):
                 if temp_closure == eps_cloture2:
                     k = False
             return eps_cloture2
-                    
-def determinisation(automate):
+
+# fonction pour determiniser l'automate                    
+def determinisation(automate,*number):
 
     # categoriser les données de l'automate
     automate_nbr_and_initial_states = automate[2]
@@ -416,7 +417,7 @@ def determinisation(automate):
     terminal = "E/S" if any( i in automate_output_states for i in automate_input_states) else "E"
 
     # modelisation pandas 
-    df = pd.DataFrame(data="--",index=automate_states,columns=automate_symboles)
+    df = pd.DataFrame(data="--",index=automate_input_states,columns=automate_symboles)
 
     # verifier si l'automate contient un ε car la determinisation est differente dans ce cas
     if(have_epsilon(automate)):
@@ -518,19 +519,97 @@ def determinisation(automate):
 
         df.insert(0, "",col, True)"""
         
-        visual_displayer(df)
+        
 
     else:
+        for symbol in automate_symboles:
+            for state in automate_input_states:
+                if type(state) != list:
+                    temp_trans_state = []
+                    for transition in automate_transitions:
+                        if transition[0] == state and transition[1] == symbol:
+                            temp_trans_state.append(transition[2])
+                    temp_trans_state = list(set(temp_trans_state))
+                    if(len(temp_trans_state) == 0 ):
+                        df.loc[state,symbol] = "---"
+                    else:
+                        df.loc[state,symbol] = "-".join(temp_trans_state[:])
+        
+        # debut de la boucle
+        modif = True
+
+        while modif:
+            # recupérer les nouveaux etats
+            # prendre les nouveaux etats de chaque ligne
+            new_state = []
+            for index, row in df.iterrows():
+                for element in row:
+                        new_state.append(element)
+            new_state = list(set(new_state))
+            # les mettre dans une liste
+            new_state = [element for element in new_state if element != "---"]
+            # verifier si les nouveaux etats sont deja dans les etats présent dans la colonne du tableau
+        
+            new_state2 = []
+            for i in range(len(new_state)):
+                
+                if new_state[i] not in df.index:
+                    new_state2 = new_state2 + [new_state[i]]
+            new_state = new_state2
+            # condition d'arret pour la boucle
+            if len(new_state) == 0:
+                modif = False
+            # refaire la ligne de transition pour chaque nouvel etat
+            for state in new_state: 
+                    temp_main_state = []
+                    for symbol in automate_symboles:
+                        # trouver chaque transition de l'etat pour chaque symbole
+                        x = state.split("-")
+                        temp_states1 = [] 
+                        for single_state in x:
+                                for transition in automate_transitions:
+                                    if transition[0] == single_state and transition[1] == symbol:
+                                        temp_states1.append(transition[2])
+                                    
+
+                        temp_states1 = list(set(temp_states1))
+                        temp_main_state.append(temp_states1)
+                        
+                    for i in range(len(temp_main_state)):
+                        if len(temp_main_state[i]) == 0:
+                            temp_main_state[i] = "---"
+                        else:
+                            temp_main_state[i] = "-".join(temp_main_state[i])
+                    # ajouter la ligne de transition dans le tableau pour l'etat 
+                    df.loc[f"{state}"] = temp_main_state
+            # fin de la boucle
+    
+    print("automate determinisé: ")
+    visual_displayer(df)
+    
+    """if(number):
+        graph.write_raw(f'B7_dot_file/B7_determinised/B7-determinised_output-{number[0]}.dot')
+    else:
+        graph.write_raw('B7_dot_file/B7_determinised/B7-determinised_output.dot')"""
+
+    return df              
+
+#fonction pour rendre complet un automate:
+def completion(automate):
+    # si c'est un automate extrait d'un fichier
+    if(type(automate) == list):
         pass
-    pass               
+    else:
+    # c'est un automate determinisé
+        df = automate
+
+    # pour simple et deterministe automate
+    
+    pass
 
  
                 
-
-
-# dire pourquoi l'automate n'est pas complet
-
-# determiniser l'automate -
+# generer graph de l'automate determinisé + colonne E/S
 # completer l'automate 
 # lire un langage complémentaire
 # prettytable
@@ -540,10 +619,8 @@ def determinisation(automate):
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-35.txt")
-    display_data(x,35)
+    x = extract_data_from_file("B7-31.txt")
+    display_data(x,1)
     automate_info(x)
+    standardisation(x)
     determinisation(x)
-
-
-    

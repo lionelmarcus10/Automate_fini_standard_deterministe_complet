@@ -9,11 +9,10 @@
 
 
 -----------------------------------------------------------
-- determinisation pour non epsilon
-- insertion colonne es pour determinisation epsilon
-
-completion epsilon
-completion non epsilon
+-insertion colonne e/s pour determinisation epsilon et non epsilon
+-
+-completion
+-complementarisation
 
 fonction determinisation_completion
 -----------------------------------------------------------
