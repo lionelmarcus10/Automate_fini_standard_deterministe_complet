@@ -245,7 +245,7 @@ def automate_info(automate):
 
 
 #  Rendre deterministe complet l'automate
-def determinisation_completion(automate):
+def determinisation_completion(automate,*number):
     DC = is_determinist_complete(automate)
     if(DC):
         print("\n\nl'automate est déja deterministe complet\n\n")
@@ -503,23 +503,6 @@ def determinisation(automate,*number):
                 df.loc[f"{state}"] = temp_main_state
 
         # fin de la boucle    
-            
-        # remodeler pour la lecture de liste dans des listes TODO
-        """col = []
-        for element in automate_input_states:
-            if element in automate_input_states and element in automate_output_states:
-                col.append("E/S")
-            elif element in automate_output_states:
-                col.append("S")
-            elif element in automate_input_states:
-                col.append("E")  
-            elif element not in automate_input_states and element not in automate_output_states:
-                col.append("")
-        
-
-        df.insert(0, "",col, True)"""
-        
-        
 
     else:
         for symbol in automate_symboles:
@@ -584,33 +567,133 @@ def determinisation(automate,*number):
                     df.loc[f"{state}"] = temp_main_state
             # fin de la boucle
     
+    # ajouter les indications des etats d'entree et de sortie
+    col = []
+    for element in df.index:
+        x  = element.split("-")
+        content= ""
+        for single_state in x:
+            if single_state in automate_input_states and single_state in automate_output_states:
+                content = "E/S"
+                break
+            elif single_state in automate_output_states:
+                content = "S"
+                break
+            elif single_state in automate_input_states:
+                content = "E"
+                break
+        col.append(content)
+    df.insert(0, "",col, True)
+
     print("automate determinisé: ")
     visual_displayer(df)
+        
+            
+
+    # creer une modelisation graphique de l'automate
+    graph = pyd.Dot('my_graph', graph_type='digraph', bgcolor='white')
     
-    """if(number):
+    # ajouter les etats ( noeuds ) de l'automate
+    for index, row in df.iterrows():
+        if df.loc[index][0] == "E/S":
+            graph.add_node(pyd.Node(index, shape='doublecircle', color='black', style='filled', fillcolor='burlywood'))
+        elif df.loc[index][0] == "E":
+            graph.add_node(pyd.Node(index, shape='circle', color='black', style='filled', fillcolor='burlywood'))
+        elif df.loc[index][0] == "S":
+            graph.add_node(pyd.Node(index, shape='doublecircle', color='black', style='filled', fillcolor='white'))
+        elif df.loc[index][0] == "":
+            graph.add_node(pyd.Node(index, shape='circle', color='black', style='filled', fillcolor='white'))
+    # ajouter les transitions ( relier les noeuds / etats)
+    for row, columns in df.iterrows():
+        for i in range(1,len(columns)):
+            if columns[i] != "---":
+                graph.add_edge(pyd.Edge(row, columns[i], label=columns.index[i]))
+          
+
+    
+    if(number):
         graph.write_raw(f'B7_dot_file/B7_determinised/B7-determinised_output-{number[0]}.dot')
     else:
-        graph.write_raw('B7_dot_file/B7_determinised/B7-determinised_output.dot')"""
+        graph.write_raw('B7_dot_file/B7_determinised/B7-determinised_output.dot')
 
     return df              
 
 #fonction pour rendre complet un automate:
-def completion(automate):
+def completion(automate,*number):
     # si c'est un automate extrait d'un fichier
     if(type(automate) == list):
-        pass
+        #extraire les informations de l'automate
+        automate_nbr_and_initial_states = automate[2]
+        automate_nbr_and_final_states = automate[3]
+        #extraire les transitions de l'automate
+        automate_transitions = automate[5:]
+        #extriaire les symboles de l'automate
+        automate_symboles = list(set([symbol[1] for symbol in automate_transitions]))
+        #extraire les états de l'automate
+        automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
+        # creer un dataframe
+        df =  create_automate_simple_table(automate_states,automate_symboles,automate_transitions)
+         #extraire les differents etats d'entrée et de sortie de l'automate
+        automate_input_states = list(set([ element for element in automate_nbr_and_initial_states.split(" ")[1:]]))
+        automate_output_states = list(set([ element for element in automate_nbr_and_final_states.split(" ")[1:]]))
+
+        col = []
+        for element in automate_states:
+            if element in automate_input_states and element in automate_output_states:
+                col.append("E/S")
+            elif element in automate_output_states:
+                col.append("S")
+            elif element in automate_input_states:
+                col.append("E")
+            elif element not in automate_input_states and element not in automate_output_states:
+                col.append("")
+        df.insert(0, "",col, True)
+
+
     else:
     # c'est un automate determinisé
         df = automate
 
-    # pour simple et deterministe automate
+    # Processus de completion pour les automates simple et deterministe ( mettre les etats poubelles)
+    for row, columns in df.iterrows():
+            for i in range(len(columns)):
+                if columns[i] == "---":
+                    df[f'{columns.index[i]}'][row] = "P"
+    # ajouter l'etat poubelle dans le tableau
+    df.loc["P"] = "P"
+    df.loc["P"][0] = ""
     
-    pass
+    # creer une modelisation graphique de l'automate
+    graph = pyd.Dot('my_graph', graph_type='digraph', bgcolor='white')
+   
+    # creer les noeuds de l'automate
+    for row in df.index:
+        if df[f"{columns.index[0]}"][row] == "E":
+            graph.add_node(pyd.Node(row, shape='circle', color='black', style='filled', fillcolor='burlywood'))
+        elif df[f"{columns.index[0]}"][row] == "S":
+            graph.add_node(pyd.Node(row, shape='doublecircle', color='black', style='filled', fillcolor='white'))
+        elif df[f"{columns.index[0]}"][row] == "E/S":
+            graph.add_node(pyd.Node(row, shape='doublecircle', color='black', style='filled', fillcolor='burlywood'))
+        elif df[f"{columns.index[0]}"][row] == "":
+            graph.add_node(pyd.Node(row, shape='circle', color='black', style='filled', fillcolor='white'))
+    
+    # creer les transitions entre les differents noeuds de l'automate
+    for row, columns in df.iterrows():
+        for i in range(1,len(columns)):
+            graph.add_edge(pyd.Edge(row, columns[i], label=columns.index[i]))
+    
+    # afficher le graph de l'automate
+    if number:
+        graph.write_raw(f'B7_dot_file/B7_completed/B7-completed-output-{number[0]}.dot')
+    else:
+        graph.write_raw('B7_dot_file/B7_completed/B7-completed-output.dot')
+
+    print("\n\nautomate completé: ")
+    visual_displayer(df) 
+    return df
 
  
                 
-# generer graph de l'automate determinisé + colonne E/S
-# completer l'automate 
 # lire un langage complémentaire
 # prettytable
 # minimiser l'automate
@@ -619,8 +702,9 @@ def completion(automate):
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-31.txt")
-    display_data(x,1)
+    x = extract_data_from_file("B7-35.txt")
+    display_data(x,35)
     automate_info(x)
     standardisation(x)
-    determinisation(x)
+    df = determinisation(x,35)
+    completion(df,35)

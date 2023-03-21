@@ -35,9 +35,9 @@ def run_program():
             elif choix_menu == "2":
                 automate_info(automate)
             elif choix_menu == "3":
-                standardisation(automate)
+                standardisation(automate,auto_number)
             elif choix_menu == "4":
-                determinisation_completion(automate)
+                determinisation_completion(automate,auto_number)
             choix_menu = menu()
         #importer les autres fonctions
         restart = True if input("voulez vous continuer avec un autre automate ? (y/n) : ") == "y" else False

@@ -10,9 +10,21 @@
 
 -----------------------------------------------------------
 -insertion colonne e/s pour determinisation epsilon et non epsilon
--
--completion
--complementarisation
 
+-complementarisation
 fonction determinisation_completion
 -----------------------------------------------------------
+
+
+# determinisation_completion cases :
+
+ - automate complete non determinist
+ - automate non complete et non deterministe
+ - automate non complete et deterministe
+ - automate deterministe et non complet
+
+# complementarisation case:
+    # ADC
+        - ADC non df => creer une table => complementariser
+        - ADC df => complementariser
+    # non ADC => rendre ADC => complementariser
