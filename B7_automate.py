@@ -255,8 +255,45 @@ def determinisation_completion(automate,*number):
         # verifier si c'est un automate complet
         complete = is_complete(automate)
         # determiniser l'automate
-        # completer l'automate
-        pass
+        if(complete and not determinist):
+            df = determinisation(automate,number)
+        elif(not complete and not determinist):
+            df = determinisation(automate,number)
+            df = completion(df,number)
+        elif(not complete and determinist):
+            df = completion(automate,number)
+        
+        
+
+        # creer une modelisation graphique de l'automate
+        graph = pyd.Dot('my_graph', graph_type='digraph', bgcolor='white')
+        # ajouter les etats de l'automate
+        for element in df.index:
+            if df.loc[element][0] == "E/S":
+                graph.add_node(pyd.Node(element, shape="doublecircle", style="filled", fillcolor="blurlywood"))
+            elif df.loc[element][0] == "E":
+                graph.add_node(pyd.Node(element, shape="circle", style="filled", fillcolor="burlywood"))
+            elif df.loc[element][0] == "S":
+                graph.add_node(pyd.Node(element, shape="doublecircle", style="filled", fillcolor="white"))
+            elif df.loc[element][0] == "S/E":
+                graph.add_node(pyd.Node(element, shape="circle", style="filled", fillcolor="white"))
+
+        # ajouter les transitions de l'automate
+        for element in df.index:
+            for i in range(1,len(df.loc[element])):
+                graph.add_edge(pyd.Edge(element, df.loc[element][i], label=df.columns[i]))
+
+        # afficher le graphique de l'automate
+        if number:
+            graph.write_raw(f'B7_dot_file/B7_determinised_completed/B7-determinised-completed-output-{number[0]}.dot')
+        else:
+            graph.write_raw('B7_dot_file/B7_determinised_completed/B7-determinised-completed-output.dot')
+            
+        # afficher l'automate
+        print("\n\n l'automate deterministe complet est : \n\n")
+        visual_displayer(df)
+        
+        return df
 
 # standardiser l'automate    
 def standardisation(automate,*number):
@@ -704,7 +741,4 @@ if __name__ == '__main__':
 
     x = extract_data_from_file("B7-35.txt")
     display_data(x,35)
-    automate_info(x)
-    standardisation(x)
-    df = determinisation(x,35)
-    completion(df,35)
+    df = determinisation_completion(x,35)

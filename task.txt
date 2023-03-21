@@ -1,30 +1,9 @@
-1 - Faire le numero 4 pour epsilon et sans epsilon
-
-2 - faire le bonus
-
-3 - revoir toutes les fonctions et les reecrire pour les doubles characters
-
-------------------------------------------
-- no epsilon in determinisation_completion symbols
-
-
------------------------------------------------------------
--insertion colonne e/s pour determinisation epsilon et non epsilon
-
--complementarisation
-fonction determinisation_completion
------------------------------------------------------------
-
-
-# determinisation_completion cases :
-
- - automate complete non determinist
- - automate non complete et non deterministe
- - automate non complete et deterministe
- - automate deterministe et non complet
-
 # complementarisation case:
     # ADC
         - ADC non df => creer une table => complementariser
         - ADC df => complementariser
     # non ADC => rendre ADC => complementariser
+
+# minimisation
+
+# reconnaissance de mot
