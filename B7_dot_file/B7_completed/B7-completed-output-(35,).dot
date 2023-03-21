@@ -1,0 +1,21 @@
+digraph my_graph {
+bgcolor=white;
+0 [color=black, fillcolor=burlywood, shape=circle, style=filled];
+"6-2-9" [color=black, fillcolor=white, shape=circle, style=filled];
+"3-7" [color=black, fillcolor=white, shape=circle, style=filled];
+"6-9" [color=black, fillcolor=white, shape=circle, style=filled];
+7 [color=black, fillcolor=white, shape=circle, style=filled];
+P [color=black, fillcolor=white, shape=circle, style=filled];
+0 -> P  [label=b];
+0 -> "6-2-9"  [label=a];
+"6-2-9" -> "3-7"  [label=b];
+"6-2-9" -> P  [label=a];
+"3-7" -> P  [label=b];
+"3-7" -> "6-9"  [label=a];
+"6-9" -> 7  [label=b];
+"6-9" -> P  [label=a];
+7 -> P  [label=b];
+7 -> "6-9"  [label=a];
+P -> P  [label=b];
+P -> P  [label=a];
+}

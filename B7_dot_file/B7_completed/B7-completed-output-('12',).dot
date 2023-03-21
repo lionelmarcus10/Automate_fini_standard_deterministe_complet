@@ -1,0 +1,18 @@
+digraph my_graph {
+bgcolor=white;
+1 [color=black, fillcolor=burlywood, shape=doublecircle, style=filled];
+0 [color=black, fillcolor=white, shape=circle, style=filled];
+P [color=black, fillcolor=white, shape=circle, style=filled];
+1 -> 1  [label=a];
+1 -> P  [label=d];
+1 -> 0  [label=c];
+1 -> P  [label=b];
+0 -> P  [label=a];
+0 -> 1  [label=d];
+0 -> P  [label=c];
+0 -> 0  [label=b];
+P -> P  [label=a];
+P -> P  [label=d];
+P -> P  [label=c];
+P -> P  [label=b];
+}

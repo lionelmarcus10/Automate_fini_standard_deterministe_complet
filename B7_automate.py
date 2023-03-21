@@ -729,8 +729,59 @@ def completion(automate,*number):
     visual_displayer(df) 
     return df
 
- 
-                
+#lecture de language complementaire
+def complementarisation(automate,*number):
+    # verifier si Automate est deterministe et complet sinon le determiniser et le completer
+    if(is_determinist_complete(automate) == False):
+        if(number):
+            df = determinisation_completion(automate,number[0])
+        else:
+            df = determinisation_completion(automate)
+    else:
+        if(type(automate) == list):
+            automate_nbr_and_initial_states = automate[2]
+            automate_nbr_and_final_states = automate[3]
+            automate_transitions = automate[5:]
+            #extriaire les symboles de l'automate
+            automate_symboles = list(set([symbol[1] for symbol in automate_transitions]))
+            #extraire les états de l'automate
+            automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
+            #extraire les differents etats d'entrée et de sortie de l'automate
+            automate_input_states = list(set([ element for element in automate_nbr_and_initial_states.split(" ")[1:]]))
+            automate_output_states = list(set([ element for element in automate_nbr_and_final_states.split(" ")[1:]]))
+
+            df = create_automate_simple_table(automate_states,automate_symboles,automate_transitions)
+
+            col = []
+            for element in automate_states:
+                if element in automate_input_states and element in automate_output_states:
+                    col.append("E/S")
+                elif element in automate_output_states:
+                    col.append("S")
+                elif element in automate_input_states:
+                    col.append("E")
+                elif element not in automate_input_states and element not in automate_output_states:
+                    col.append("")
+            df.insert(0, "",col, True)
+        else:
+            df = automate
+        # faire la complementarisation
+         # supprimer les sorties de l'automate
+         # mettre les sorties au niveau des etats qui n'en avaient pas avant
+        for row, columns in df.iterrows():
+            if(columns[0] == "E/S"):
+                df[f"{columns.index[0]}"][row] = "E"
+            elif(columns[0] == "S"):
+                df[f"{columns.index[0]}"][row] = ""
+            elif(columns[0] == "E"):
+                df[f"{columns.index[0]}"][row] = "E/S"
+            elif(columns[0] == ""):
+                df[f"{columns.index[0]}"][row] = "S"
+        
+        # creer le graph puis le mettre dans un fichier .dot
+        visual_displayer(df)
+        return df
+                   
 # lire un langage complémentaire
 # prettytable
 # minimiser l'automate
@@ -739,6 +790,7 @@ def completion(automate,*number):
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-35.txt")
-    display_data(x,35)
-    df = determinisation_completion(x,35)
+    x = extract_data_from_file("B7-2.txt")
+    display_data(x,2)
+    automate_info(x)
+    df = complementarisation(x,2)
