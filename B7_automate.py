@@ -248,7 +248,15 @@ def automate_info(automate):
 def determinisation_completion(automate,*number):
     DC = is_determinist_complete(automate)
     if(DC):
+        automate_transitions = automate[5:]
+        #extriaire les symboles de l'automate
+        automate_symboles = list(set([symbol[1] for symbol in automate_transitions]))
+        #extraire les états de l'automate
+        automate_states = list(set([ state[0] for state in automate_transitions] + [ state[2] for state in automate_transitions]))
+        
+        df = create_automate_simple_table(automate_states,automate_symboles,automate_transitions)
         print("\n\nl'automate est déja deterministe complet\n\n")
+
     else:
         # verifier si c'est un automate deterministe
         determinist = is_determinist(automate)
@@ -293,7 +301,7 @@ def determinisation_completion(automate,*number):
         print("\n\n l'automate deterministe complet est : \n\n")
         visual_displayer(df)
         
-        return df
+    return df
 
 # standardiser l'automate    
 def standardisation(automate,*number):
@@ -765,32 +773,88 @@ def complementarisation(automate,*number):
             df.insert(0, "",col, True)
         else:
             df = automate
-        # faire la complementarisation
-         # supprimer les sorties de l'automate
-         # mettre les sorties au niveau des etats qui n'en avaient pas avant
-        for row, columns in df.iterrows():
-            if(columns[0] == "E/S"):
-                df[f"{columns.index[0]}"][row] = "E"
-            elif(columns[0] == "S"):
-                df[f"{columns.index[0]}"][row] = ""
-            elif(columns[0] == "E"):
-                df[f"{columns.index[0]}"][row] = "E/S"
-            elif(columns[0] == ""):
-                df[f"{columns.index[0]}"][row] = "S"
-        
-        # creer le graph puis le mettre dans un fichier .dot
-        visual_displayer(df)
-        return df
-                   
-# lire un langage complémentaire
-# prettytable
-# minimiser l'automate
-# tester les mots
+            
+    # faire la complementarisation
+     # supprimer les sorties de l'automate
+     # mettre les sorties au niveau des etats qui n'en avaient pas avant
+    for row, columns in df.iterrows():
+        if(columns[0] == "E/S"):
+            df[f"{columns.index[0]}"][row] = "E"
+        elif(columns[0] == "S"):
+            df[f"{columns.index[0]}"][row] = ""
+        elif(columns[0] == "E"):
+            df[f"{columns.index[0]}"][row] = "E/S"
+        elif(columns[0] == ""):
+            df[f"{columns.index[0]}"][row] = "S"
+    
+    # creer le graph puis le mettre dans un fichier .dot
+    graph = pyd.Dot('my_graph', graph_type='digraph', bgcolor='white')
+    # creer les noeuds de l'automate
+    for row in df.index:
+        if df[f"{columns.index[0]}"][row] == "E":
+            graph.add_node(pyd.Node(row, shape='circle', color='black', style='filled', fillcolor='burlywood'))
+        elif df[f"{columns.index[0]}"][row] == "S":
+            graph.add_node(pyd.Node(row, shape='doublecircle', color='black', style='filled', fillcolor='white'))
+        elif df[f"{columns.index[0]}"][row] == "E/S":
+            graph.add_node(pyd.Node(row, shape='doublecircle', color='black', style='filled', fillcolor='burlywood'))
+        elif df[f"{columns.index[0]}"][row] == "":
+            graph.add_node(pyd.Node(row, shape='circle', color='black', style='filled', fillcolor='white'))
+    # creer les transitions entre les differents noeuds de l'automate
+    for row, columns in df.iterrows():
+        for i in range(1,len(columns)):
+            graph.add_edge(pyd.Edge(row, columns[i], label=columns.index[i]))
+    # afficher le graph de l'automate
+    if number:
+        graph.write_raw(f'B7_dot_file/B7_complementarised/B7-complementarised-output-{number[0]}.dot')
+    else:
+        graph.write_raw('B7_dot_file/B7_complementarised/B7-complementarised-output.dot')
+    
 
+    print("\n\n automate complementaire: ")
+    visual_displayer(df)
+    return df                   
+
+
+# reconnaitre un mot dans un automate
+def word_recognition(automate):
+    # demander à l'utilisateur de saisir le mot à reconnaitre, le mot correspondant à la fin du mot sera "fin"
+    word = input("Entrer le mot à reconnaitre: ")
+    det_comp = determinisation_completion(automate)
+    # verifier si le mot est reconnu par l'automate
+    visual_displayer(det_comp)
+    while(word != "fin"):
+        print(f"le mot à reconnaitre est: {word}")
+        # essayer de reconnaitre le mot dans l'automate
+        start = []
+        # trouver les entrées de l'automate
+        for row, columns in det_comp.iterrows():
+            if(columns[0] == "E/S" or columns[0] == "E"):
+                start.append(row)
+        # Pour chaque entrée : 
+        possible_first_stransitions = []
+        for element in start:
+            ele_line = det_comp.loc[element]
+            # lister toutes les transitions possibles à partir de l'entrée ( copier la ligne de l'etat )
+            try:
+                    x = ele_line[word[0]]
+                    possible_first_stransitions.append(x)  
+            except:
+                break
+        if(len(possible_first_stransitions) == 0):
+            print("\n\nNon\n\n")
+        else:
+            word = word[1:]
+            """ azerty """
+            # pour chaque element de transition possible
+             # faire une boucle pour parcourir le mot à reconnaitre
+             # trouver une condition d'arrêt de la boucle
+
+        # demander à saisir le nouveau mot à reconnaitre
+        print("\nvous pouvez saisir un autre mot à reconnaitre ou taper 'fin' pour quitter\n")
+        word = input("Entrer le nouveau mot à reconnaitre: ")
+    pass
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-2.txt")
-    display_data(x,2)
-    automate_info(x)
-    df = complementarisation(x,2)
+    x = extract_data_from_file("B7-5.txt")
+    df = word_recognition(x)

@@ -35,11 +35,11 @@ def run_program():
             elif choix_menu == "2":
                 automate_info(automate)
             elif choix_menu == "3":
-                standardisation(automate,auto_number)
+                standardisation(automate,int(auto_number))
             elif choix_menu == "4":
-                determinisation_completion(automate,auto_number)
+                determinisation_completion(automate,int(auto_number))
             elif choix_menu == "8":
-                complementarisation(automate,auto_number)
+                complementarisation(automate,int(auto_number))
                 pass
             choix_menu = menu()
         #importer les autres fonctions

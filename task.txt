@@ -1,9 +1,9 @@
-# complementarisation case:
-    # ADC
-        - ADC non df => creer une table => complementariser
-        - ADC df => complementariser
-    # non ADC => rendre ADC => complementariser
-
 # minimisation
 
 # reconnaissance de mot
+
+# trace d'exécution fonctions
+
+# enlever de commentaire visual displayer
+
+# faire readme md et txt
