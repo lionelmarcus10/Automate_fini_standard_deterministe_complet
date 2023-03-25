@@ -1,4 +1,4 @@
-from B7_automate import display_data, extract_data_from_file, automate_info, standardisation, determinisation_completion, complementarisation
+from B7_automate import display_data, extract_data_from_file, automate_info, standardisation, determinisation_completion, complementarisation, word_recognition
 
 # menu principal proposant les options de l'application
 def menu():
@@ -38,6 +38,8 @@ def run_program():
                 standardisation(automate,int(auto_number))
             elif choix_menu == "4":
                 determinisation_completion(automate,int(auto_number))
+            elif choix_menu == "7":
+                word_recognition(automate)
             elif choix_menu == "8":
                 complementarisation(automate,int(auto_number))
                 pass

@@ -7,3 +7,5 @@
 # enlever de commentaire visual displayer
 
 # faire readme md et txt
+
+# visual displayer ajoute colonne des etats 
