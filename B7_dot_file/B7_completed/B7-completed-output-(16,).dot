@@ -1,0 +1,33 @@
+digraph my_graph {
+bgcolor=white;
+1 [color=black, fillcolor=burlywood, shape=circle, style=filled];
+"1-2" [color=black, fillcolor=burlywood, shape=circle, style=filled];
+"3-2" [color=black, fillcolor=white, shape=circle, style=filled];
+"3-4" [color=black, fillcolor=white, shape=circle, style=filled];
+"0-4" [color=black, fillcolor=white, shape=doublecircle, style=filled];
+P [color=black, fillcolor=white, shape=circle, style=filled];
+1 -> P  [label=b];
+1 -> P  [label=d];
+1 -> "1-2"  [label=a];
+1 -> P  [label=c];
+"1-2" -> "3-2"  [label=b];
+"1-2" -> P  [label=d];
+"1-2" -> "1-2"  [label=a];
+"1-2" -> P  [label=c];
+"3-2" -> "3-2"  [label=b];
+"3-2" -> P  [label=d];
+"3-2" -> P  [label=a];
+"3-2" -> "3-4"  [label=c];
+"3-4" -> P  [label=b];
+"3-4" -> "0-4"  [label=d];
+"3-4" -> P  [label=a];
+"3-4" -> "3-4"  [label=c];
+"0-4" -> P  [label=b];
+"0-4" -> "0-4"  [label=d];
+"0-4" -> P  [label=a];
+"0-4" -> P  [label=c];
+P -> P  [label=b];
+P -> P  [label=d];
+P -> P  [label=a];
+P -> P  [label=c];
+}

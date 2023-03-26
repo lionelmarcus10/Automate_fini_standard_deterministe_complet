@@ -25,7 +25,7 @@ def run_program():
         
         choix_menu = 0
         while choix_menu != "5":
-            if choix_menu in ["1", "2", "3", "4", "5"]:
+            if choix_menu in ["1", "2", "3", "4", "5","7","8"]:
                 pass
             else:
                 choix_menu = menu()
