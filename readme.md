@@ -1,3 +1,4 @@
+
 # ⚙️ Projet : Automates finis 
 
 Projet semestriel L2 Gr. B7 de traitement d'automates finis
@@ -34,6 +35,11 @@ Projet semestriel L2 Gr. B7 de traitement d'automates finis
 
 Puis exécuter le fichier ``B7_main.py``
 
+### Ressource nécessaire pour visualer les graphiques :
+
+Avec __Visual Studio Code__ : installer `Graphviz Interactive Preview`
+
+Avec __un autre IDE__ : copier le continu des fichiers `.dot` et les coller sur [ce site](http://www.webgraphviz.com/).
 
     
 ## 📖 Fonctionnalités 
@@ -62,14 +68,14 @@ L'environnement du projet contient différents dossiers :
 ### B7_dot_file
 Contient l'ensemble des dossiers d'automates
 ####  B7_Automates
-Contient les fichiers ``txt`` des automates initiaux
+Contient les fichiers ``.txt`` des automates initiaux
 ####  B7_simple_automate 
-Contient les fichiers ``dot`` des automates initiaux
+Contient les fichiers ``.dot`` des automates initiaux
 #### B7_completed 
-Contient les fichiers ``dot`` des automates complets
+Contient les fichiers ``.dot`` des automates complets
 #### B7_determinised
-Contient les fichiers ``dot`` des automates déterminisés
+Contient les fichiers ``.dot`` des automates déterminisés
 #### B7_determinised_completed
-Contient les fichiers ``dot`` des automates déterminisés + complets
+Contient les fichiers ``.dot`` des automates déterminisés + complets
 #### B7_standardised
-Contient les fichiers ``dot`` des automates standards
+Contient les fichiers ``.dot`` des automates standards
