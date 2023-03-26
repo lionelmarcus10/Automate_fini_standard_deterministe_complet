@@ -57,7 +57,7 @@ def visual_displayer(df):
         height=500,
     
     )
-    #fig.show()
+    fig.show()
     print("\n\n")
     print(df.to_markdown())
     print("\n\n")
@@ -139,8 +139,6 @@ def display_data(automate,*number):
     visual_displayer(df)
 
     
-
-
 def create_automate_simple_table(automate_states,automate_symboles,automate_transitions):
     # afficher les données de l'automate en format tableau
     df = pd.DataFrame(data="--",index=automate_states,columns=automate_symboles)
@@ -157,7 +155,6 @@ def create_automate_simple_table(automate_states,automate_symboles,automate_tran
             else:
                 df.loc[state,symbol] = ",".join(trans_state[1:])
     return df
-
 
 
 # determiner si l'automate est deterministe
@@ -262,6 +259,25 @@ def determinisation_completion(automate,*number):
         
         df = create_automate_simple_table(automate_states,automate_symboles,automate_transitions)
         print("\n\nl'automate est déja deterministe complet\n\n")
+        automate_nbr_and_initial_states = automate[2]
+        automate_nbr_and_final_states = automate[3]
+        #extraire les differents etats d'entrée et de sortie de l'automate
+        automate_input_states = list(set([ element for element in automate_nbr_and_initial_states.split(" ")[1:]]))
+        automate_output_states = list(set([ element for element in automate_nbr_and_final_states.split(" ")[1:]]))
+
+        col = []
+        for element in automate_states:
+            if element in automate_input_states and element in automate_output_states:
+                col.append("E/S")
+            elif element in automate_output_states:
+                col.append("S")
+            elif element in automate_input_states:
+                col.append("E")
+            elif element not in automate_input_states and element not in automate_output_states:
+                col.append("")
+        df.insert(0, "",col, True)
+        
+        return df
 
     else:
         # verifier si c'est un automate deterministe
@@ -852,14 +868,41 @@ def word_recognition(automate):
             print("\n\nNon\n\n")
         else:
             word = word[1:]
-            """ azerty """
             # pour chaque element de transition possible
             for element in possible_first_stransitions:
                 # faire une boucle pour parcourir le mot à reconnaitre
                 reconnue = 0
+                k = element
                 while reconnue == 0:
-                # trouver une condition d'arrêt de la boucle
-                    pass
+                    # trouver une condition d'arrêt de la boucle
+                    try:
+                        if(len(word) == 0):
+                            if(det_comp[f"{columns.index[0]}"][k] == "S" or det_comp[f"{columns.index[0]}"][k] == "E/S"  ):
+                                print("\n\nOui\n\n")
+                                return 0
+                            else:
+                                reconnue = 1
+                                break
+                        k2 = det_comp[word[0]][k]
+                        # si la longueur du mot est supérieur à 1 on incrémente
+                        if(len(word) > 1):
+                            word = word[1:]
+                            k = k2
+                        # sinon on cherche à savoir si c'est une sortie 
+                        else:
+                            # si c'est une sortie on affiche oui
+                            if det_comp[f"{columns.index[0]}"][k2] == "S" or det_comp[f"{columns.index[0]}"][k2] == "E/S":
+                                print("\n\nOui\n\n")
+                                return 0
+                            else:
+                            # sinon on affiche non
+                                reconnue = 1
+                    except:
+                        reconnue = 1
+            if reconnue == 1:
+                print("\n\nNon\n\n")
+                
+                    
              
 
         # demander à saisir le nouveau mot à reconnaitre
@@ -869,5 +912,5 @@ def word_recognition(automate):
 
 if __name__ == '__main__':
 
-    x = extract_data_from_file("B7-5.txt")
+    x = extract_data_from_file("B7-2.txt")
     df = word_recognition(x)
