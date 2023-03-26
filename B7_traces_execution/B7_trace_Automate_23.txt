@@ -1,0 +1,59 @@
+---------------------------------------------------
+##################################
+Automate N°23: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |    | c   | b   | a   | d   |
+|---:|:---|:----|:----|:----|:----|
+|  3 |    | 4   | 3   | --- | --- |
+|  1 | E  | --- | --- | 2   | --- |
+|  4 |    | 4   | --- | --- | 0   |
+|  0 | S  | --- | --- | --- | 0   |
+|  2 |    | --- | 3   | 2   | --- |
+
+Question 2:
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : deterministe, standard, non complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+automate completé:
+
+|    |    | c   | b   | a   | d   |
+|:---|:---|:----|:----|:----|:----|
+| 3  |    | 4   | 3   | P   | P   |
+| 1  | E  | P   | P   | 2   | P   |
+| 4  |    | 4   | P   | P   | 0   |
+| 0  | S  | P   | P   | P   | 0   |
+| 2  |    | P   | 3   | 2   | P   |
+| P  |    | P   | P   | P   | P   |
+
+ l'automate deterministe complet est :
+
+|    |    | c   | b   | a   | d   |
+|:---|:---|:----|:----|:----|:----|
+| 3  |    | 4   | 3   | P   | P   |
+| 1  | E  | P   | P   | 2   | P   |
+| 4  |    | 4   | P   | P   | 0   |
+| 0  | S  | P   | P   | P   | 0   |
+| 2  |    | P   | 3   | 2   | P   |
+| P  |    | P   | P   | P   | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |     | c   | b   | a   | d   |
+|:---|:----|:----|:----|:----|:----|
+| 3  | S   | 4   | 3   | P   | P   |
+| 1  | E/S | P   | P   | 2   | P   |
+| 4  | S   | 4   | P   | P   | 0   |
+| 0  |     | P   | P   | P   | 0   |
+| 2  | S   | P   | 3   | 2   | P   |
+| P  | S   | P   | P   | P   | P   |

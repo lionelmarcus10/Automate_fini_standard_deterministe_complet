@@ -1,0 +1,92 @@
+---------------------------------------------------
+##################################
+Automate N°25: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |    | c   | b   | a   | d   |
+|---:|:---|:----|:----|:----|:----|
+|  3 |    | 3,4 | --- | --- | 0   |
+|  1 | E  | 4   | 3   | 1,2 | 0   |
+|  4 |    | --- | --- | --- | 4,0 |
+|  0 | S  | --- | --- | --- | --- |
+|  2 |    | 4   | 2,3 | --- | 0   |
+
+Question 2:
+l'automate n'est pas deterministe car il a des etats ayant le meme libellé de transition vers differents etats
+l'automate n'est pas standard car il a une fleche retour ( transition ) de l'etat initial vers l'etat initial
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : non deterministe, non standard, non complet
+
+Question 3:
+Automate standardisé :
+
+|    |    | c   | b   | a   | d   |
+|:---|:---|:----|:----|:----|:----|
+| 3  |    | 3,4 | --- | --- | 0   |
+| 1  |    | 4   | 3   | 1,2 | 0   |
+| 4  |    | --- | --- | --- | 4,0 |
+| 0  | S  | --- | --- | --- | --- |
+| 2  |    | 4   | 2,3 | --- | 0   |
+| i  | E  | 4   | 3   | 1,2 | 0   |
+
+Question 4:
+automate determinisé:
+
+|     |    | c   | b   | a   | d   |
+|:----|:---|:----|:----|:----|:----|
+| 1   | E  | 4   | 3   | 1-2 | 0   |
+| 0   | S  | --- | --- | --- | --- |
+| 4   |    | --- | --- | --- | 0-4 |
+| 1-2 | E  | 4   | 3-2 | 1-2 | 0   |
+| 3   |    | 4-3 | --- | --- | 0   |
+| 0-4 | S  | --- | --- | --- | 0-4 |
+| 4-3 |    | 4-3 | --- | --- | 0-4 |
+| 3-2 |    | 4-3 | 3-2 | --- | 0   |
+
+automate completé:
+
+|     |    | c   | b   | a   | d   |
+|:----|:---|:----|:----|:----|:----|
+| 1   | E  | 4   | 3   | 1-2 | 0   |
+| 0   | S  | P   | P   | P   | P   |
+| 4   |    | P   | P   | P   | 0-4 |
+| 1-2 | E  | 4   | 3-2 | 1-2 | 0   |
+| 3   |    | 4-3 | P   | P   | 0   |
+| 0-4 | S  | P   | P   | P   | 0-4 |
+| 4-3 |    | 4-3 | P   | P   | 0-4 |
+| 3-2 |    | 4-3 | 3-2 | P   | 0   |
+| P   |    | P   | P   | P   | P   |
+
+ l'automate deterministe complet est :
+
+|     |    | c   | b   | a   | d   |
+|:----|:---|:----|:----|:----|:----|
+| 1   | E  | 4   | 3   | 1-2 | 0   |
+| 0   | S  | P   | P   | P   | P   |
+| 4   |    | P   | P   | P   | 0-4 |
+| 1-2 | E  | 4   | 3-2 | 1-2 | 0   |
+| 3   |    | 4-3 | P   | P   | 0   |
+| 0-4 | S  | P   | P   | P   | 0-4 |
+| 4-3 |    | 4-3 | P   | P   | 0-4 |
+| 3-2 |    | 4-3 | 3-2 | P   | 0   |
+| P   |    | P   | P   | P   | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|     |     | c   | b   | a   | d   |
+|:----|:----|:----|:----|:----|:----|
+| 1   | E/S | 4   | 3   | 1-2 | 0   |
+| 0   |     | P   | P   | P   | P   |
+| 4   | S   | P   | P   | P   | 0-4 |
+| 1-2 | E/S | 4   | 3-2 | 1-2 | 0   |
+| 3   | S   | 4-3 | P   | P   | 0   |
+| 0-4 |     | P   | P   | P   | 0-4 |
+| 4-3 | S   | 4-3 | P   | P   | 0-4 |
+| 3-2 | S   | 4-3 | 3-2 | P   | 0   |
+| P   | S   | P   | P   | P   | P   |

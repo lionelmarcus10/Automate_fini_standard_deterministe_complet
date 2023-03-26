@@ -1,0 +1,34 @@
+---------------------------------------------------
+##################################
+Automate N°38: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |     |   b |   a |
+|---:|:----|----:|----:|
+|  0 | E/S |   3 |   1 |
+|  1 | S   |   2 |   1 |
+|  3 | S   |   3 |   3 |
+|  2 | S   |   3 |   3 |
+
+Question 2:
+l'automate est : deterministe, standard, complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+l'automate est déja deterministe complet
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |    |   b |   a |
+|---:|:---|----:|----:|
+|  0 | E  |   3 |   1 |
+|  1 |    |   2 |   1 |
+|  3 |    |   3 |   3 |
+|  2 |    |   3 |   3 |

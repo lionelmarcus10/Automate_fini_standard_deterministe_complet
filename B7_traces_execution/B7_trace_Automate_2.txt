@@ -1,0 +1,35 @@
+---------------------------------------------------
+##################################
+Automate N°2: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |     |   a |
+|---:|:----|----:|
+|  0 | E/S |   0 |
+
+Question 2:
+l'automate est : deterministe, non standard, complet
+
+Question 3:
+l'automate n'est pas standard car il a une fleche retour ( transition ) de l'etat initial vers l'etat initial
+
+Automate standardisé :
+
+|    |     |   a |
+|:---|:----|----:|
+| 0  | S   |   0 |
+| i  | E/S |   0 |
+
+Question 4:
+l'automate est déja deterministe complet
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |    |   a |
+|---:|:---|----:|
+|  0 | E  |   0 |

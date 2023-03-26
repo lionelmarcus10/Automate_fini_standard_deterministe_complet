@@ -1,0 +1,26 @@
+---------------------------------------------------
+##################################
+Automate N°1: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |
+|----|
+
+Question 2:
+l'automate est : deterministe, standard, complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+l'automate est déja deterministe complet
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |
+|----|

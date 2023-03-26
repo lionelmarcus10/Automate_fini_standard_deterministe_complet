@@ -1,0 +1,30 @@
+---------------------------------------------------
+##################################
+Automate N°8: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |    |   a |
+|---:|:---|----:|
+|  0 | S  |   0 |
+|  1 | E  |   0 |
+
+Question 2:
+l'automate est : deterministe, standard, complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+l'automate est déja deterministe complet
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |     |   a |
+|---:|:----|----:|
+|  0 |     |   0 |
+|  1 | E/S |   0 |

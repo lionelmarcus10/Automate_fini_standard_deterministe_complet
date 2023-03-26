@@ -315,6 +315,7 @@ def standardisation(automate,*number):
     standard = is_standard(automate)
     if(standard):
         print("\n\nl'automate est déja standard\n\n")
+        return "l'automate est déja standard"
     else:
         # categoriser les données de l'automate
         automate_nbr_and_initial_states = automate[2]
@@ -406,6 +407,7 @@ def standardisation(automate,*number):
         #affichage
         print("\n\nAutomate standardisé : ")
         visual_displayer(df)
+        return df
         
         
 #verifier si l'automate contient un ε
@@ -852,8 +854,13 @@ def word_recognition(automate):
             word = word[1:]
             """ azerty """
             # pour chaque element de transition possible
-             # faire une boucle pour parcourir le mot à reconnaitre
-             # trouver une condition d'arrêt de la boucle
+            for element in possible_first_stransitions:
+                # faire une boucle pour parcourir le mot à reconnaitre
+                reconnue = 0
+                while reconnue == 0:
+                # trouver une condition d'arrêt de la boucle
+                    pass
+             
 
         # demander à saisir le nouveau mot à reconnaitre
         print("\nvous pouvez saisir un autre mot à reconnaitre ou taper 'fin' pour quitter\n")

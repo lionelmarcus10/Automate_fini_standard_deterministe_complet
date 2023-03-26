@@ -1,0 +1,64 @@
+---------------------------------------------------
+##################################
+Automate N°22: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |     | c   | b   | a     | d   |
+|---:|:----|:----|:----|:------|:----|
+|  0 |     | --- | --- | ---   | 1   |
+|  1 | E/S | --- | --- | 0,2,3 | --- |
+|  3 |     | 0   | --- | ---   | --- |
+|  2 |     | --- | 3   | ---   | --- |
+
+Question 2:
+l'automate n'est pas deterministe car il a des etats ayant le meme libellé de transition vers differents etats
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : non deterministe, standard, non complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+automate determinisé:
+
+|       |     | c   | b   | a     | d   |
+|:------|:----|:----|:----|:------|:----|
+| 1     | E/S | --- | --- | 0-3-2 | --- |
+| 0-3-2 |     | 0   | 3   | ---   | 1   |
+| 3     |     | 0   | --- | ---   | --- |
+| 0     |     | --- | --- | ---   | 1   |
+
+automate completé:
+
+|       |     | c   | b   | a     | d   |
+|:------|:----|:----|:----|:------|:----|
+| 1     | E/S | P   | P   | 0-3-2 | P   |
+| 0-3-2 |     | 0   | 3   | P     | 1   |
+| 3     |     | 0   | P   | P     | P   |
+| 0     |     | P   | P   | P     | 1   |
+| P     |     | P   | P   | P     | P   |
+
+ l'automate deterministe complet est :
+
+|       |     | c   | b   | a     | d   |
+|:------|:----|:----|:----|:------|:----|
+| 1     | E/S | P   | P   | 0-3-2 | P   |
+| 0-3-2 |     | 0   | 3   | P     | 1   |
+| 3     |     | 0   | P   | P     | P   |
+| 0     |     | P   | P   | P     | 1   |
+| P     |     | P   | P   | P     | P   |
+
+############# Bonus ################
+
+automate complementaire:
+
+|       |    | c   | b   | a     | d   |
+|:------|:---|:----|:----|:------|:----|
+| 1     | E  | P   | P   | 0-3-2 | P   |
+| 0-3-2 | S  | 0   | 3   | P     | 1   |
+| 3     | S  | 0   | P   | P     | P   |
+| 0     | S  | P   | P   | P     | 1   |
+| P     | S  | P   | P   | P     | P   |

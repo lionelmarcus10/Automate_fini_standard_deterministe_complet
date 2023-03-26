@@ -1,0 +1,80 @@
+---------------------------------------------------
+##################################
+Automate N°16: 
+
+Question 1:
+Affichage de l'automate en format tableau :
+
+|    |    | a   | d   | c   | b   |
+|---:|:---|:----|:----|:----|:----|
+|  3 |    | --- | --- | 3,4 | --- |
+|  4 |    | --- | 4,0 | --- | --- |
+|  1 | E  | 1,2 | --- | --- | --- |
+|  0 | S  | --- | --- | --- | --- |
+|  2 |    | --- | --- | --- | 2,3 |
+
+Question 2: 
+l'automate n'est pas deterministe car il a des etats ayant le meme libellé de transition vers differents etats
+l'automate n'est pas standard car il a une fleche retour ( transition ) de l'etat initial vers l'etat initial
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+L'automate est : non deterministe, non standard, non complet
+
+Question 3: 
+Automate standardisé :
+
+|    |    | a   | d   | c   | b   |
+|:---|:---|:----|:----|:----|:----|
+| 3  |    | --- | --- | 3,4 | --- |
+| 4  |    | --- | 4,0 | --- | --- |
+| 1  |    | 1,2 | --- | --- | --- |
+| 0  | S  | --- | --- | --- | --- |
+| 2  |    | --- | --- | --- | 2,3 |
+| i  | E  | 1,2 |     |     |     |
+
+Question 4: 
+automate determinisé:
+
+|     |    | c   | b   | a   | d   |
+|:----|:---|:----|:----|:----|:----|
+| 1   | E  | --- | --- | 1-2 | --- |
+| 1-2 | E  | --- | 3-2 | 1-2 | --- |
+| 3-2 |    | 4-3 | 3-2 | --- | --- |
+| 4-3 |    | 4-3 | --- | --- | 0-4 |
+| 0-4 | S  | --- | --- | --- | 0-4 |
+
+Automate completé:
+
+|     |    | a   | d   | c   | b   |
+|:----|:---|:----|:----|:----|:----|
+| 1   | E  | 1-2 | P   | P   | P   |
+| 1-2 | E  | 1-2 | P   | P   | 3-2 |
+| 3-2 |    | P   | P   | 3-4 | 3-2 |
+| 3-4 |    | P   | 0-4 | 3-4 | P   |
+| 0-4 | S  | P   | 0-4 | P   | P   |
+| P   |    | P   | P   | P   | P   |
+
+L'automate deterministe complet est :
+
+|     |    | a   | d   | c   | b   |
+|:----|:---|:----|:----|:----|:----|
+| 1   | E  | 1-2 | P   | P   | P   |
+| 1-2 | E  | 1-2 | P   | P   | 3-2 |
+| 3-2 |    | P   | P   | 3-4 | 3-2 |
+| 3-4 |    | P   | 0-4 | 3-4 | P   |
+| 0-4 | S  | P   | 0-4 | P   | P   |
+| P   |    | P   | P   | P   | P   |
+
+############# Bonus ################
+
+Question 8: 
+automate complementaire:
+
+|     |     | c   | b   | a   | d   |
+|:----|:----|:----|:----|:----|:----|
+| 1   | E/S | P   | P   | 1-2 | P   |
+| 1-2 | E/S | P   | 3-2 | 1-2 | P   |
+| 3-2 | S   | 4-3 | 3-2 | P   | P   |
+| 4-3 | S   | 4-3 | P   | P   | 0-4 |
+| 0-4 |     | P   | P   | P   | 0-4 |
+| P   | S   | P   | P   | P   | P   |

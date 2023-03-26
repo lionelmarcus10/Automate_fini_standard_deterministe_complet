@@ -1,0 +1,59 @@
+---------------------------------------------------
+##################################
+Automate N°37: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |     | b   | a   |
+|---:|:----|:----|:----|
+|  3 | S   | 0   | 1   |
+|  1 | S   | 4   | 2   |
+|  4 | S   | --- | 1   |
+|  0 | E/S | 3   | 1   |
+|  2 | S   | 0   | --- |
+
+Question 2:
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : deterministe, standard, non complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+automate completé:
+
+|    |     | b   | a   |
+|:---|:----|:----|:----|
+| 3  | S   | 0   | 1   |
+| 1  | S   | 4   | 2   |
+| 4  | S   | P   | 1   |
+| 0  | E/S | 3   | 1   |
+| 2  | S   | 0   | P   |
+| P  |     | P   | P   |
+
+ l'automate deterministe complet est :
+
+|    |     | b   | a   |
+|:---|:----|:----|:----|
+| 3  | S   | 0   | 1   |
+| 1  | S   | 4   | 2   |
+| 4  | S   | P   | 1   |
+| 0  | E/S | 3   | 1   |
+| 2  | S   | 0   | P   |
+| P  |     | P   | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |    | b   | a   |
+|:---|:---|:----|:----|
+| 3  |    | 0   | 1   |
+| 1  |    | 4   | 2   |
+| 4  |    | P   | 1   |
+| 0  | E  | 3   | 1   |
+| 2  |    | 0   | P   |
+| P  | S  | P   | P   |

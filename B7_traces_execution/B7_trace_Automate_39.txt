@@ -1,0 +1,82 @@
+---------------------------------------------------
+##################################
+Automate N°39: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |     | b   | a   |
+|---:|:----|:----|:----|
+|  0 | E   | 2   | 1   |
+|  1 | E/S | 2   | 1   |
+|  3 | E   | --- | 1,2 |
+|  2 |     | 1   | 0   |
+
+Question 2:
+l'automate n'est pas deterministe car il a plus d'un etat d'entrée
+l'automate n'est pas standard car il a plus d'un etat d'entrée
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : non deterministe, non standard, non complet
+
+Question 3:
+Automate standardisé :
+
+|    |     | b   | a     |
+|:---|:----|:----|:------|
+| 0  |     | 2   | 1     |
+| 1  | S   | 2   | 1     |
+| 3  |     | --- | 1,2   |
+| 2  |     | 1   | 0     |
+| i  | E/S | 2   | 1,1,2 |
+
+Question 4:
+automate determinisé:
+
+|     |     | b   | a   |
+|:----|:----|:----|:----|
+| 0   | E   | 2   | 1   |
+| 1   | E/S | 2   | 1   |
+| 3   | E   | --- | 1-2 |
+| 1-2 | E/S | 1-2 | 0-1 |
+| 2   |     | 1   | 0   |
+| 0-1 | E   | 2   | 1   |
+
+automate completé:
+
+|     |     | b   | a   |
+|:----|:----|:----|:----|
+| 0   | E   | 2   | 1   |
+| 1   | E/S | 2   | 1   |
+| 3   | E   | P   | 1-2 |
+| 1-2 | E/S | 1-2 | 0-1 |
+| 2   |     | 1   | 0   |
+| 0-1 | E   | 2   | 1   |
+| P   |     | P   | P   |
+
+ l'automate deterministe complet est :
+
+|     |     | b   | a   |
+|:----|:----|:----|:----|
+| 0   | E   | 2   | 1   |
+| 1   | E/S | 2   | 1   |
+| 3   | E   | P   | 1-2 |
+| 1-2 | E/S | 1-2 | 0-1 |
+| 2   |     | 1   | 0   |
+| 0-1 | E   | 2   | 1   |
+| P   |     | P   | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|     |     | b   | a   |
+|:----|:----|:----|:----|
+| 0   | E/S | 2   | 1   |
+| 1   | E   | 2   | 1   |
+| 3   | E/S | P   | 1-2 |
+| 1-2 | E   | 1-2 | 0-1 |
+| 2   | S   | 1   | 0   |
+| 0-1 | E/S | 2   | 1   |
+| P   | S   | P   | P   |

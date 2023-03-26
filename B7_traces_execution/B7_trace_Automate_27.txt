@@ -1,0 +1,51 @@
+---------------------------------------------------
+##################################
+Automate N°27: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |    |   b | a   |
+|---:|:---|----:|:----|
+|  0 | S  |   0 | 0   |
+|  1 | E  |   2 | 2   |
+|  2 |    |   0 | --- |
+
+Question 2:
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : deterministe, standard, non complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+automate completé:
+
+|    |    | b   | a   |
+|:---|:---|:----|:----|
+| 0  | S  | 0   | 0   |
+| 1  | E  | 2   | 2   |
+| 2  |    | 0   | P   |
+| P  |    | P   | P   |
+
+ l'automate deterministe complet est :
+
+|    |    | b   | a   |
+|:---|:---|:----|:----|
+| 0  | S  | 0   | 0   |
+| 1  | E  | 2   | 2   |
+| 2  |    | 0   | P   |
+| P  |    | P   | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |     | b   | a   |
+|:---|:----|:----|:----|
+| 0  |     | 0   | 0   |
+| 1  | E/S | 2   | 2   |
+| 2  | S   | 0   | P   |
+| P  | S   | P   | P   |

@@ -1,0 +1,90 @@
+---------------------------------------------------
+##################################
+Automate N°33: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+|    |    | c   | ε   | b   | a   |
+|---:|:---|:----|:----|:----|:----|
+|  6 |    | --- | 12  | --- | --- |
+|  3 |    | --- | 5   | --- | --- |
+|  8 |    | --- | 11  | --- | 8   |
+|  1 |    | --- | 2,4 | --- | --- |
+| 10 |    | --- | 11  | --- | --- |
+|  9 |    | --- | --- | 10  | --- |
+|  4 |    | --- | 5   | 4   | --- |
+| 11 |    | 11  | 12  | --- | --- |
+| 12 | S  | --- | --- | --- | --- |
+|  0 | E  | --- | 1,7 | --- | --- |
+|  7 |    | --- | 8,9 | --- | --- |
+|  5 |    | 6   | --- | --- | --- |
+|  2 |    | --- | --- | --- | 3   |
+
+Question 2:
+l'automate n'est pas deterministe car il a des etats ayant le meme libellé de transition vers differents etats
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : non deterministe, standard, non complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+automate determinisé: 
+
+|      |    | c    | b    | a   |
+|:-----|:---|:-----|:-----|:----|
+| 0    | E  | 6    | 4-10 | 3-8 |
+| 3-8  |    | 11-6 | ---  | 8   |
+| 6    |    | ---  | ---  | --- |
+| 4-10 |    | 11-6 | 4    | --- |
+| 11-6 |    | 11   | ---  | --- |
+| 8    |    | 11   | ---  | 8   |
+| 4    |    | 6    | 4    | --- |
+| 11   |    | 11   | ---  | --- |
+
+automate completé:
+
+|      |    | c    | b    | a   |
+|:-----|:---|:-----|:-----|:----|
+| 0    | E  | 6    | 4-10 | 3-8 |
+| 3-8  |    | 11-6 | P    | 8   |
+| 6    |    | P    | P    | P   |
+| 4-10 |    | 11-6 | 4    | P   |
+| 11-6 |    | 11   | P    | P   |
+| 8    |    | 11   | P    | 8   |
+| 4    |    | 6    | 4    | P   |
+| 11   |    | 11   | P    | P   |
+| P    |    | P    | P    | P   |
+
+ l'automate deterministe complet est :
+
+|      |    | c    | b    | a   |
+|:-----|:---|:-----|:-----|:----|
+| 0    | E  | 6    | 4-10 | 3-8 |
+| 3-8  |    | 11-6 | P    | 8   |
+| 6    |    | P    | P    | P   |
+| 4-10 |    | 11-6 | 4    | P   |
+| 11-6 |    | 11   | P    | P   |
+| 8    |    | 11   | P    | 8   |
+| 4    |    | 6    | 4    | P   |
+| 11   |    | 11   | P    | P   |
+| P    |    | P    | P    | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|      |     | c    | b    | a   |
+|:-----|:----|:-----|:-----|:----|
+| 0    | E/S | 6    | 4-10 | 3-8 |
+| 3-8  | S   | 11-6 | P    | 8   |
+| 6    | S   | P    | P    | P   |
+| 4-10 | S   | 11-6 | 4    | P   |
+| 11-6 | S   | 11   | P    | P   |
+| 8    | S   | 11   | P    | 8   |
+| 4    | S   | 6    | 4    | P   |
+| 11   | S   | 11   | P    | P   |
+| P    | S   | P    | P    | P   |

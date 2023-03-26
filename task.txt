@@ -1,6 +1,4 @@
 
 # reconnaissance de mot
 
-# trace d'exécution fonctions
-
 # enlever de commentaire visual displayer

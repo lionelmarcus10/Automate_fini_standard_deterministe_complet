@@ -1,0 +1,49 @@
+---------------------------------------------------
+##################################
+Automate N°5: 
+
+Question 1 :
+affichage de l'automate en format tableau :
+
+
+
+|    |    | a   |
+|---:|:---|:----|
+|  0 | E  | 13  |
+| 13 |    | --- |
+
+Question 2:
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : deterministe, standard, non complet
+
+Question 3:
+l'automate est déja standard
+
+Question 4:
+automate completé:
+
+|    |    | a   |
+|:---|:---|:----|
+| 0  | E  | 13  |
+| 13 |    | P   |
+| P  |    | P   |
+
+ l'automate deterministe complet est :
+
+|    |    | a   |
+|:---|:---|:----|
+| 0  | E  | 13  |
+| 13 |    | P   |
+| P  |    | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|    |     | a   |
+|:---|:----|:----|
+| 0  | E/S | 13  |
+| 13 | S   | P   |
+| P  | S   | P   |

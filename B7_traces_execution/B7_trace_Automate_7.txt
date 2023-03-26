@@ -1,0 +1,64 @@
+---------------------------------------------------
+##################################
+Automate N°7: 
+
+Question 1:
+affichage de l'automate en format tableau :
+
+
+
+|    |    | a   |
+|---:|:---|:----|
+|  0 | S  | --- |
+|  1 | E  | 0,1 |
+
+Question 2:
+l'automate n'est pas deterministe car il a des etats ayant le meme libellé de transition vers differents etats
+l'automate n'est pas standard car il a une fleche retour ( transition ) de l'etat initial vers l'etat initial
+l'automate n'est pas complet car il a des etats qui ne sortent pas de flèches comprenant tous les symboles de l'automate vers d'autres etats
+
+l'automate est : non deterministe, non standard, non complet
+
+Question 3:
+Automate standardisé :
+
+|    |    | a   |
+|:---|:---|:----|
+| 0  | S  | --- |
+| 1  |    | 0,1 |
+| i  | E  | 0,1 |
+
+Question 4:
+automate determinisé:
+
+|     |    | a   |
+|:----|:---|:----|
+| 1   | E  | 0-1 |
+| 0-1 | S  | 0-1 |
+
+automate completé:
+
+|     |    | a   |
+|:----|:---|:----|
+| 1   | E  | 0-1 |
+| 0-1 | S  | 0-1 |
+| P   |    | P   |
+
+ l'automate deterministe complet est :
+
+|     |    | a   |
+|:----|:---|:----|
+| 1   | E  | 0-1 |
+| 0-1 | S  | 0-1 |
+| P   |    | P   |
+
+############# Bonus ################
+
+Question 8:
+automate complementaire:
+
+|     |     | a   |
+|:----|:----|:----|
+| 1   | E/S | 0-1 |
+| 0-1 |     | 0-1 |
+| P   | S   | P   |
