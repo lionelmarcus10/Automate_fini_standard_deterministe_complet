@@ -44,7 +44,13 @@ def extract_data_from_file(file_name):
 #prendre en parametre la colonne des etats de l'automate
 def visual_displayer(df):
 
-    fig =  ff.create_table(df)
+    df2 = df.copy()
+    state = []
+    for row, col in df.iterrows():
+        state.append(row)
+    df2.insert(0, "",state, True)
+
+    fig =  ff.create_table(df2)
     fig.update_layout(
         autosize=False,
         width=700,
