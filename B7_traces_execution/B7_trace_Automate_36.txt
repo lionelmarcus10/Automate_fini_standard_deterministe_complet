@@ -31,8 +31,6 @@ Automate standardisé :
 Question 4:
 automate determinisé:
 
-
-
 |       |     | b     | a   |
 |:------|:----|:------|:----|
 | 0     | E   | 1-2   | 1   |
@@ -43,13 +41,7 @@ automate determinisé:
 | 0-1-2 | E   | 0-1-2 | 0-1 |
 | 0-2   | E   | 1-2   | 0-1 |
 
-
-
-
-
 automate completé:
-
-
 
 |       |     | b     | a   |
 |:------|:----|:------|:----|
@@ -62,15 +54,7 @@ automate completé:
 | 0-2   | E   | 1-2   | 0-1 |
 | P     |     | P     | P   |
 
-
-
-
-
  l'automate deterministe complet est :
-
-
-
-
 
 |       |     | b     | a   |
 |:------|:----|:------|:----|
@@ -84,6 +68,11 @@ automate completé:
 | P     |     | P     | P   |
 
 ############# Bonus ################
+
+Question 7:
+le mot à reconnaitre est: a
+
+oui
 
 Question 8:
 automate complementaire:

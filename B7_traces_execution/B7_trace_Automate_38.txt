@@ -22,6 +22,10 @@ Question 4:
 l'automate est déja deterministe complet
 
 ############# Bonus ################
+Question 7:
+le mot à reconnaitre est: a
+
+Oui
 
 Question 8:
 automate complementaire:

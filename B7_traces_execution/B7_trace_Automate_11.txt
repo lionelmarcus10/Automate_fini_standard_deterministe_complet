@@ -23,6 +23,15 @@ l'automate est déja deterministe complet
 
 ############# Bonus ################
 
+Question 7:
+le mot à reconnaitre est: a
+
+Oui
+
+le mot à reconnaitre est: b
+
+Non
+
 Question 8:
 automate complementaire:
 

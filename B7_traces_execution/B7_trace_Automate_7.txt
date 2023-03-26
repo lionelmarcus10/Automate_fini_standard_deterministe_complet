@@ -54,6 +54,12 @@ automate completé:
 
 ############# Bonus ################
 
+Question 7:
+le mot à reconnaitre est: a
+
+Non
+
+
 Question 8:
 automate complementaire:
 
